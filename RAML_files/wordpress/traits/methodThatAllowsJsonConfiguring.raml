@@ -1,0 +1,21 @@
+queryParameters: 
+  http_envelope: 
+    description: 'false: (default) true: Some environments (like in-browser Javascript or Flash) block or divert responses with a non-200 HTTP status code. Setting this parameter will force the HTTP status code to always be 200. The JSON response is wrapped in an "envelope" containing the "real" HTTP status code and headers.'
+    type: boolean
+    default: false
+    example: true
+  callback: 
+    description: An optional JSONP callback function.
+  pretty: 
+    description: "false: (default) true: Output pretty JSON"
+    type: boolean
+    default: false
+    example: true
+  meta: 
+    description: "Optional. Loads data from the endpoints found in the 'meta' part of the response. Comma separated list. Example: meta=site,likes"
+    example: true
+  context: 
+    description: "display: (default) Formats the output as HTML for display. Shortcodes are parsed, paragraph tags are added, etc.. edit: Formats the output for editing. Shortcodes are left unparsed, significant whitespace is kept, etc.."
+    enum: [ display , edit ]
+    default: display
+    example: edit

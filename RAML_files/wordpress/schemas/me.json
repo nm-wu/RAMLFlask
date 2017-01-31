@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "required": false,
+  "type": "object",
+  "properties": {
+    "ID": {
+      "required": false,
+      "type": "integer"
+    },
+    "display_name": {
+      "required": false,
+      "type": "string"
+    },
+    "username": {
+      "required": false,
+      "type": "string"
+    },
+    "email": {
+      "required": false,
+      "type": "string"
+    },
+    "primary_blog": {
+      "required": false,
+      "type": "integer"
+    },
+    "token_site_id": {
+      "required": false,
+      "type": "integer"
+    },
+    "avatar_URL": {
+      "required": false,
+      "type": "string"
+    },
+    "profile_URL": {
+      "required": false,
+      "type": "string"
+    },
+    "verified": {
+      "required": false,
+      "type": "boolean"
+    },
+    "meta": {
+      "required": false,
+      "type": "object",
+      "properties": {
+      }
+    }
+  }
+}

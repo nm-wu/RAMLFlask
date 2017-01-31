@@ -1,0 +1,856 @@
+#%RAML 0.8
+title: WordPress API
+version: v1.1
+baseUri: https://public-api.wordpress.com/rest/{version}
+securitySchemes:
+  - oauth_2_0: !include securitySchemes/oauth_2_0.raml
+schemas:
+  - category: !include schemas/category.json
+  - comment: !include schemas/comment.json
+  - comments: !include schemas/comments.json
+  - following: !include schemas/following.json
+  - likes: !include schemas/likes.json
+  - me: !include schemas/me.json
+  - mine_likes: !include schemas/mine_likes.json
+  - mine_reblogs: !include schemas/mine_reblogs.json
+  - notifications: !include schemas/notifications.json
+  - note: !include schemas/note.json
+  - notifications_seen: !include schemas/notifications_seen.json
+  - notifications_read: !include schemas/notifications_read.json
+  - post: !include schemas/post.json
+  - posts: !include schemas/posts.json
+  - read_menu: !include schemas/read_menu.json
+  - read_tags: !include schemas/read_tags.json
+  - read_tag: !include schemas/read_tag.json
+  - subscriptions: !include schemas/subscriptions.json
+  - reblog: !include schemas/reblog.json
+  - recommended_blogs: !include schemas/recommended_blogs.json
+  - related_posts: !include schemas/related_posts.json
+  - site: !include schemas/site.json
+  - site_posts: !include schemas/site_posts.json
+  - site_post_likes: !include schemas/site_post_likes.json
+  - site_follows: !include schemas/site_follows.json
+  - site_follows_mine: !include schemas/site_follows_mine.json
+  - statsStreak: !include schemas/statsStreak.json
+  - subscribed: !include schemas/subscribed.json
+  - tag: !include schemas/tag.json
+resourceTypes:
+  - wordpressResource: !include resourceTypes/wordpressResource.raml
+  - wordpressResourceWithHttpEnvelopeSupport: !include resourceTypes/wordpressResourceWithHttpEnvelopeSupport.raml
+  - post: !include resourceTypes/post.raml
+  - getElement: !include resourceTypes/getElement.raml
+  - delete: !include resourceTypes/delete.raml
+traits:
+  - post: !include traits/post.raml
+  - tag: !include traits/tag.raml
+  - stats: !include traits/stats.raml
+  - posts: !include traits/posts.raml
+  - methodThatAllowsSelectingContext: !include traits/methodThatAllowsSelectingContext.raml
+  - listWithSpecifiedSize: !include traits/listWithSpecifiedSize.raml
+  - category: !include traits/category.raml
+  - following: !include traits/following.raml
+  - methodThatAllowsFilteringByDate: !include traits/methodThatAllowsFilteringByDate.raml
+  - listWithSpecifiedSize2: !include traits/listWithSpecifiedSize2.raml
+  - methodThatAllowsJsonConfiguring: !include traits/methodThatAllowsJsonConfiguring.raml
+  - notificationsPrinter: !include traits/notificationsPrinter.raml
+  - methodThatAllowsJsonConfiguringBase: !include traits/methodThatAllowsJsonConfiguringBase.raml
+  - pageable: !include traits/pageable.raml
+  - comment: !include traits/comment.raml
+  - comments: !include traits/comments.raml
+securedBy: [ oauth_2_0 ]
+/me: 
+  type: wordpressResourceWithHttpEnvelopeSupport
+  get: 
+    is: [ methodThatAllowsJsonConfiguring ]
+    description: "Meta data about auth token's User"
+    responses: 
+      200: 
+        body: 
+          application/json: 
+            schema: me
+            example: !include examples/me.json
+/freshly-pressed: 
+  type: wordpressResourceWithHttpEnvelopeSupport
+  get: 
+    is: [ methodThatAllowsJsonConfiguring , methodThatAllowsFilteringByDate: { name: posts picked } , listWithSpecifiedSize: { name: posts, default: 10, maximum: 40 } ]
+    description: List Freshly Pressed Posts
+    queryParameters: 
+      content_width: 
+        description: "When in context=display, images/embeds in post content will be set to the desired maximum width. Default: 480."
+        type: integer
+        default: 480
+        example: 100
+      thumb_height: 
+        description: "Desired height of thumbnail images, in pixels. Default: 160."
+        type: integer
+        minimum: 1
+        default: 160
+        example: 100
+      thumb_width: 
+        description: "Desired width of thumbnail images, in pixels. Default: 252."
+        type: integer
+        minimum: 1
+        default: 252
+        example: 100
+    responses: 
+      200: 
+        body: 
+          application/json: 
+            schema: posts
+            example: !include examples/posts.json
+/notifications: 
+  type: wordpressResourceWithHttpEnvelopeSupport
+  get: 
+    is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext , notificationsPrinter , listWithSpecifiedSize: { name: notifications, default: 9, maximum: 99 } ]
+    description: Reverse-chronologically list User Notifications
+    queryParameters: 
+      before: 
+        description: Return notifications updated on or before the specified UNIX time.
+        type: integer
+        required: true
+      ids: 
+        description: Array of ids to be retrieved.
+        required: true
+      unread: 
+        description: "Return only unread comments. Default: false."
+        type: boolean
+        default: false
+        example: true
+      since: 
+        description: Return notifications since the specified UNIX time.
+        type: integer
+        required: true
+      type: 
+        description: Return only notifications of a particular type. Default is all types.
+      trap: 
+        description: "Combine similar notes into one. Client should delete notes with empty subjects. Default: false."
+        type: boolean
+        default: false
+        example: true
+      read: 
+        description: "Return only read comments. Default: false."
+        type: boolean
+        default: false
+        example: true
+    responses: 
+      200: 
+        body: 
+          application/json: 
+            schema: notifications
+            example: !include examples/notifications.json
+  /seen: 
+    type: wordpressResourceWithHttpEnvelopeSupport
+    post: 
+      is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+      description: Set the timestamp of the most recently seen Notification
+      body: 
+        application/x-www-form-urlencoded: 
+          formParameters: 
+            time: 
+              description: The UNIX timestamp of the most recent Notification seen on a client.
+              type: integer
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: notifications_seen
+              example: !include examples/notifications_seen.json
+  /read: 
+    type: wordpressResourceWithHttpEnvelopeSupport
+    post: 
+      is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+      description: Mark a set of Notifications as read
+      body: 
+        application/x-www-form-urlencoded: 
+          formParameters: 
+            counts: 
+              description: Decrement the unread count for a notification. Key=note_ID, Value=decrement amount.
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: notifications_read
+              example: !include examples/notifications_read.json
+  /{note_ID}: 
+    type: getElement
+    uriParameters: 
+      note_ID: 
+        description: The note ID
+        type: integer
+        required: true
+    get: 
+      is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext , notificationsPrinter ]
+      description: Get a Notification
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: note
+              example: !include examples/note.json
+/sites: 
+  /{site}: 
+    type: getElement
+    uriParameters: 
+      site: 
+        description: The site ID, The site domain
+        required: true
+    get: 
+      is: [ methodThatAllowsJsonConfiguring ]
+      description: Information about a site ID/domain
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: site
+              example: !include examples/site.json
+    /stats/streak: 
+      type: wordpressResourceWithHttpEnvelopeSupport
+      get: 
+        is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+        description: View and visitor counts for a site
+        queryParameters: 
+          max: 
+            description: maximum number of posts to return
+            type: integer
+          fields: 
+            description: Returns specified fields only. Comma-separated list.
+            example: ID,title
+        responses: 
+          200: 
+            body: 
+              application/json: 
+                schema: statsStreak
+                example: !include examples/statsStreak.json
+    /categories: 
+      "/slug:{category}": 
+        type: wordpressResourceWithHttpEnvelopeSupport
+        uriParameters: 
+          category: 
+            description: The category slug
+            required: true
+        get: 
+          is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+          description: Returns information on a single Category
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: category
+                  example: !include examples/category.json
+        post: 
+          is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext , category ]
+          description: Edit a Category
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: category
+                  example: !include examples/category.json
+        /delete: 
+          type: delete
+          post: 
+            is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+            description: Delete a Category
+            responses: 
+              200: 
+                body: 
+                  application/json: 
+                    schema: category
+                    example: !include examples/category.json
+      /new: 
+        type: post
+        post: 
+          is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext , category ]
+          description: Create a new Category
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: category
+                  example: !include examples/category.json
+    /posts: 
+      type: wordpressResourceWithHttpEnvelopeSupport
+      get: 
+        is: [ methodThatAllowsJsonConfiguring , pageable: { name: posts } , methodThatAllowsSelectingContext , methodThatAllowsFilteringByDate: { name: posts dated } , listWithSpecifiedSize: { name: posts, default: 20, maximum: 100 } ]
+        description: Return matching Posts
+        queryParameters: 
+          status: 
+            description: "publish: (default) Return only published posts. private: Return only private posts. draft: Return only draft posts. pending: Return only posts pending editorial approval. future: Return only posts scheduled for future publishing. trash: Return only posts in the trash. any: Return all posts regardless of status."
+            enum: 
+              - publish
+              - private
+              - draft
+              - pending
+              - future
+              - trash
+              - any
+            default: publish
+            example: private
+          tag: 
+            description: Specify the tag name or slug.
+            required: true
+          type: 
+            description: "Specify the post type. Defaults to 'post', use 'any' to query for both posts and pages. Post types besides post and page need to be whitelisted using the rest_api_allowed_post_types filter."
+            enum: [ post , any ]
+            default: post
+            example: any
+          meta_value: 
+            description: Metadata value that the post should contain. Will only be applied if a `meta_key` is also given
+            required: true
+          author: 
+            description: "Author's user ID"
+            type: integer
+            required: true
+          sticky: 
+            description: Specify the stickiness.
+            type: boolean
+            required: true
+          category: 
+            description: Specify the category name or slug.
+            required: true
+          order: 
+            description: "DESC: (default) Return posts in descending order. For dates, that means newest to oldest. ASC: Return posts in ascending order. For dates, that means oldest to newest."
+            enum: [ DESC , ASC ]
+            default: DESC
+          meta_key: 
+            description: Metadata key that the post should contain
+            required: true
+          search: 
+            description: Search query
+            required: true
+          order_by: 
+            description: "date: (default) Order by the created time of each post. modified: Order by the modified time of each post. title: Order lexicographically by the posts' titles. comment_count: Order by the number of comments for each post. ID: Order by post ID."
+            enum: 
+              - date
+              - modified
+              - title
+              - comment_count
+              - ID
+            default: date
+            example: modified
+        responses: 
+          200: 
+            body: 
+              application/json: 
+                schema: site_posts
+                example: !include examples/site_posts.json
+      "/slug:{post_slug}": 
+        type: wordpressResourceWithHttpEnvelopeSupport
+        uriParameters: 
+          post_slug: 
+            description: The post slug (a.k.a. sanitized name)
+            required: true
+        get: 
+          is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+          description: Return a single Post (by slug)
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: post
+                  example: !include examples/post.json
+      /new: 
+        type: post
+        post: 
+          is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext , post ]
+          description: Create a Post
+          body: 
+            application/x-www-form-urlencoded: 
+              formParameters: 
+                media: 
+                  description: "An array of images to attach to the post. To upload media, the entire request should be multipart/form-data encoded. Multiple media items will be displayed in a gallery. Accepts images (image/gif, image/jpeg, image/png) only. Example: curl  --form 'title=Image'  --form 'media[]=@/path/to/file.jpg'  -H 'Authorization: BEARER your-token'  'https://public-api.wordpress.com/rest/v1/sites/123/posts/new'"
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: post
+                  example: !include examples/post.json
+      /{post_ID}: 
+        type: getElement
+        uriParameters: 
+          post_ID: 
+            description: The post ID
+            type: integer
+            required: true
+        get: 
+          is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+          description: Return a single Post (by ID)
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: post
+                  example: !include examples/post.json
+        post: 
+          is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext , post ]
+          description: Edit a Post
+          body: 
+            application/x-www-form-urlencoded: 
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: post
+                  example: !include examples/post.json
+        /likes: 
+          type: wordpressResourceWithHttpEnvelopeSupport
+          get: 
+            is: [ methodThatAllowsJsonConfiguring ]
+            description: List the Likes for a Post
+            responses: 
+              200: 
+                body: 
+                  application/json: 
+                    schema: site_post_likes
+                    example: !include examples/site_post_likes.json
+          /mine: 
+            type: wordpressResourceWithHttpEnvelopeSupport
+            get: 
+              is: [ methodThatAllowsJsonConfiguring ]
+              description: Get your Like status for a Post
+              responses: 
+                200: 
+                  body: 
+                    application/json: 
+                      schema: mine_likes
+                      example: !include examples/mine_likes.json
+          /new: 
+            type: post
+            post: 
+              is: [ methodThatAllowsJsonConfiguring ]
+              description: Like a Post
+              responses: 
+                200: 
+                  body: 
+                    application/json: 
+                      schema: likes
+                      example: !include examples/likes.json
+          /delete: 
+            type: delete
+            post: 
+              is: [ methodThatAllowsJsonConfiguring ]
+              description: Remove your Like from a Post
+              responses: 
+                200: 
+                  body: 
+                    application/json: 
+                      schema: likes
+                      example: !include examples/likes.json
+        /reblogs: 
+          /mine: 
+            type: wordpressResourceWithHttpEnvelopeSupport
+            get: 
+              is: [ methodThatAllowsJsonConfiguring ]
+              description: Get Reblog status for a Post
+              responses: 
+                200: 
+                  body: 
+                    application/json: 
+                      schema: mine_reblogs
+                      example: !include examples/mine_reblogs.json
+          /new: 
+            type: post
+            post: 
+              is: [ methodThatAllowsJsonConfiguring ]
+              description: Reblog a Post
+              body: 
+                application/x-www-form-urlencoded: 
+                  formParameters: 
+                    destination_site_id: 
+                      description: The site ID reblogging to
+                      type: integer
+                    note: 
+                      description: The reblog note
+              responses: 
+                200: 
+                  body: 
+                    application/json: 
+                      schema: reblog
+                      example: !include examples/reblog.json
+        /delete: 
+          type: delete
+          post: 
+            is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+            description: "Delete a Post. Note: If the post object is of type post or page and the trash is enabled, this request will send the post to the trash. A second request will permanently delete the post."
+            responses: 
+              200: 
+                body: 
+                  application/json: 
+                    schema: post
+                    example: !include examples/post.json
+        /replies: 
+          type: wordpressResourceWithHttpEnvelopeSupport
+          get: 
+            is: [ methodThatAllowsJsonConfiguring , pageable: { name: comments } , methodThatAllowsSelectingContext , methodThatAllowsFilteringByDate: { name: comments dated } , comments ]
+            description: Return recent Comments for a Post
+            responses: 
+              200: 
+                body: 
+                  application/json: 
+                    schema: comments
+                    example: !include examples/comments.json
+          /new: 
+            type: post
+            post: 
+              is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext , comment ]
+              description: Create a Comment on a Post
+              responses: 
+                200: 
+                  body: 
+                    application/json: 
+                      schema: comment
+                      example: !include examples/comment.json
+        /related: 
+          type: wordpressResourceWithHttpEnvelopeSupport
+          post: 
+            is: [ methodThatAllowsJsonConfiguringBase ]
+            description: Search within a site for related posts
+            body: 
+              application/x-www-form-urlencoded: 
+                formParameters: 
+                  filter: 
+                    description: Filter the search. See ElasticSearch filters
+                  size: 
+                    description: Number of results to return
+                    type: integer
+            responses: 
+              200: 
+                body: 
+                  application/json: 
+                    schema: related_posts
+                    example: !include examples/related_posts.json
+    /tags: 
+      "/slug:{tag}": 
+        type: wordpressResourceWithHttpEnvelopeSupport
+        is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+        get: 
+          description: Returns information on a single Tag
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: tag
+                  example: !include examples/tag.json
+        post: 
+          is: [ tag ]
+          description: Edit a Tag
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: tag
+                  example: !include examples/tag.json
+        /delete: 
+          type: delete
+          post: 
+            is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+            description: Delete a Tag
+            responses: 
+              200: 
+                body: 
+                  application/json: 
+                    schema: tag
+                    example: !include examples/tag.json
+      /new: 
+        type: post
+        post: 
+          is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext , tag ]
+          description: Create a new Tag
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: tag
+                  example: !include examples/tag.json
+    /comments: 
+      type: wordpressResourceWithHttpEnvelopeSupport
+      get: 
+        is: [ methodThatAllowsJsonConfiguring , pageable: { name: comments } , methodThatAllowsSelectingContext , methodThatAllowsFilteringByDate: { name: comments dated } , comments ]
+        description: Return recent Comments
+        responses: 
+          200: 
+            body: 
+              application/json: 
+                schema: comments
+                example: !include examples/comments.json
+      /{comment_ID}: 
+        type: getElement
+        uriParameters: 
+          comment_ID: 
+            description: The comment ID
+            type: integer
+            required: true
+        get: 
+          is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+          description: Return a single Comment
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: comment
+                  example: !include examples/comment.json
+        post: 
+          is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext , comment ]
+          description: Edit a Comment
+          body: 
+            application/x-www-form-urlencoded: 
+              formParameters: 
+                status: 
+                  description: "approved: (default) Approve the comment. unapproved: Remove the comment from public view and send it to the moderation queue. spam: Mark the comment as spam. unspam: Unmark the comment as spam. Will attempt to set it to the previous status. trash: Send a comment to the trash if trashing is enabled (see constant: EMPTY_TRASH_DAYS). untrash: Untrash a comment. Only works when the comment is in the trash."
+                  enum: 
+                    - approved
+                    - unapproved
+                    - spam
+                    - unspam
+                    - trash
+                    - untrash
+                  default: approved
+                  example: unapproved
+                date: 
+                  description: "The comment's creation time."
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: comment
+                  example: !include examples/comment.json
+        /delete: 
+          type: delete
+          post: 
+            is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+            description: Delete a Comment
+            responses: 
+              200: 
+                body: 
+                  application/json: 
+                    schema: comment
+                    example: !include examples/comment.json
+        /replies: 
+          /new: 
+            type: post
+            post: 
+              is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext , comment ]
+              description: Create a Comment as a reply to another Comment
+              responses: 
+                200: 
+                  body: 
+                    application/json: 
+                      schema: comment
+                      example: !include examples/comment.json
+    /follows: 
+      type: wordpressResourceWithHttpEnvelopeSupport
+      get: 
+        is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext , listWithSpecifiedSize2: { name: followers, default: 20 } ]
+        description: "List a site's followers in reverse chronological order"
+        queryParameters: 
+          page: 
+            description: "page number Default: 1."
+            type: integer
+            default: 1
+        responses: 
+          200: 
+            body: 
+              application/json: 
+                schema: site_follows
+                example: !include examples/site_follows.json
+      /mine: 
+        type: wordpressResourceWithHttpEnvelopeSupport
+        get: 
+          is: [ methodThatAllowsJsonConfiguring ]
+          description: Get Blog Following status for this User
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: site_follows_mine
+                  example: !include examples/site_follows_mine.json
+        /delete: 
+          type: delete
+          post: 
+            is: [ methodThatAllowsJsonConfiguring ]
+            description: Unfollow a Blog
+            responses: 
+              200: 
+                body: 
+                  application/json: 
+                    schema: following
+                    example: !include examples/following.json
+      /new: 
+        type: post
+        post: 
+          is: [ methodThatAllowsJsonConfiguring ]
+          description: Follow a Blog
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: following
+                  example: !include examples/following.json
+/read: 
+  /tags: 
+    type: wordpressResourceWithHttpEnvelopeSupport
+    get: 
+      is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+      description: Returns the list of tags subscribed to by the user.
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: read_tags
+              example: !include examples/read_tags.json
+    /{tag}: 
+      type: getElement
+      uriParameters: 
+        tag: 
+          description: The tag name
+          required: true
+      get: 
+        is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+        description: Returns details about a specified tag.
+        responses: 
+          200: 
+            body: 
+              application/json: 
+                schema: read_tag
+                example: !include examples/read_tag.json
+      /posts: 
+        type: wordpressResourceWithHttpEnvelopeSupport
+        get: 
+          is: [ methodThatAllowsJsonConfiguring , methodThatAllowsFilteringByDate: { name: posts dated } , posts ]
+          description: List of posts from a tag
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: posts
+                  example: !include examples/posts.json
+      /mine: 
+        type: wordpressResourceWithHttpEnvelopeSupport
+        get: 
+          is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+          description: Returns the subscribed status of the user.
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: subscribed
+                  example: !include examples/subscribed.json
+        /new: 
+          type: post
+          post: 
+            is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+            description: Subscribe to a new tag.
+            responses: 
+              200: 
+                body: 
+                  application/json: 
+                    schema: subscribed
+                    example: !include examples/subscribed.json
+        /delete: 
+          type: delete
+          post: 
+            is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+            description: Unsubscribe from a tag.
+            responses: 
+              200: 
+                body: 
+                  application/json: 
+                    schema: subscribed
+                    example: !include examples/subscribed.json
+  /menu: 
+    type: wordpressResourceWithHttpEnvelopeSupport
+    get: 
+      is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+      description: Default reader menu.
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: read_menu
+              example: !include examples/read_menu.json
+  /liked: 
+    type: wordpressResourceWithHttpEnvelopeSupport
+    get: 
+      is: [ methodThatAllowsJsonConfiguring , methodThatAllowsFilteringByDate: { name: posts dated } , posts ]
+      description: List of posts from the blogs a user likes.
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: posts
+              example: !include examples/posts.json
+  /following: 
+    type: wordpressResourceWithHttpEnvelopeSupport
+    get: 
+      is: [ methodThatAllowsJsonConfiguring , methodThatAllowsFilteringByDate: { name: posts dated } , posts ]
+      description: List of posts from the blogs a user follows.
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: posts
+              example: !include examples/posts.json
+    /mine: 
+      type: wordpressResourceWithHttpEnvelopeSupport
+      get: 
+        is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext ]
+        description: List the feeds the user is following.
+        responses: 
+          200: 
+            body: 
+              application/json: 
+                schema: subscriptions
+                example: !include examples/subscriptions.json
+      /new: 
+        type: post
+        post: 
+          is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext , following: { action: follow } ]
+          description: Follow the specified blog.
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: subscribed
+                  example: !include examples/subscribed.json
+      /delete: 
+        type: delete
+        post: 
+          is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext , following: { action: unfollow } ]
+          description: Unfollow the specified blog.
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: subscribed
+                  example: !include examples/subscribed.json
+  /recommendations: 
+    /mine: 
+      type: wordpressResourceWithHttpEnvelopeSupport
+      get: 
+        is: [ methodThatAllowsJsonConfiguring , methodThatAllowsSelectingContext , listWithSpecifiedSize2: { name: blogs, default: 4 } ]
+        description: Get recommendations to blogs you may like
+        queryParameters: 
+          source: 
+            description: 'The source this request comes from: ["mobile", "reader_sidebar", "reader_inline", "recap_2013"]'
+            required: true
+            enum: 
+              - mobile
+              - reader_sidebar
+              - reader_inline
+              - recap_2013
+          exclude: 
+            description: Array of blog_ids to exclude.
+            required: true
+          lang: 
+            description: Language code for localized reason strings.
+            required: true
+            example: en
+        responses: 
+          200: 
+            body: 
+              application/json: 
+                schema: recommended_blogs
+                example: !include examples/recommended_blogs.json
+documentation: 
+  - title: Headline
+    content: !include docs/headline.md

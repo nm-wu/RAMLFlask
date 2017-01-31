@@ -1,0 +1,15 @@
+{
+  "id": 1,
+  "unread": 1,
+  "noticon": "some string",
+  "type": "some string",
+  "timestamp": 1,
+  "date": "some string",
+  "subject": "some string",
+  "snippet": "some string",
+  "body": "some string",
+  "status": "some string",
+  "meta": "some string",
+  "note": {
+  }
+}

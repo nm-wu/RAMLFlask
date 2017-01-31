@@ -1,0 +1,71 @@
+{
+  "required" : true ,
+  "$schema" : "http://json-schema.org/draft-03/schema" ,
+  "type" : "object" ,
+  "properties" : {
+    "ID" : {
+      "type" : "number" ,
+      "required" : false
+    } ,
+    "name" : {
+      "type" : "string" ,
+      "required" : false
+    } ,
+    "description" : {
+      "type" : "string" ,
+      "required" : false
+    } ,
+    "URL" : {
+      "type" : "string" ,
+      "required" : false
+    } ,
+    "jetpack" : {
+      "type" : "boolean" ,
+      "required" : false
+    } ,
+    "subscribers_count" : {
+      "type" : "number" ,
+      "required" : false
+    } ,
+    "is_private" : {
+      "type" : "boolean" ,
+      "required" : false
+    } ,
+    "is_following" : {
+      "type" : "number" ,
+      "required" : false
+    } ,
+    "meta" : {
+      "type" : "object" ,
+      "required" : false ,
+      "properties" : {
+        "links" : {
+          "type" : "object" ,
+          "required" : false ,
+          "properties" : {
+            "self" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "help" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "posts" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "comments" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "xmlrpc" : {
+              "type" : "string" ,
+              "required" : false
+            }
+          }
+        }
+      }
+    }
+  }
+}

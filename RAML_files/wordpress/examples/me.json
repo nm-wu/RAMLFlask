@@ -1,0 +1,13 @@
+{
+  "ID": 1,
+  "display_name": "some string",
+  "username": "some string",
+  "email": "some string",
+  "primary_blog": 1,
+  "token_site_id": 1,
+  "avatar_URL": "some string",
+  "profile_URL": "some string",
+  "verified": false,
+  "meta": {
+  }
+}

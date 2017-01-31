@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "required": false,
+  "type": "object",
+  "properties": {
+    "success": {
+      "required": false,
+      "type": "boolean"
+    },
+    "is_reblogged": {
+      "required": false,
+      "type": "boolean"
+    },
+    "meta": {
+      "required": false,
+      "type": "object",
+      "properties": {
+      }
+    },
+    "ID": {
+      "required": false,
+      "type": "integer"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "required": false,
+  "type": "object",
+  "properties": {
+    "success": {
+      "required": false,
+      "type": "boolean"
+    },
+    "i_like": {
+      "required": false,
+      "type": "boolean"
+    },
+    "like_count": {
+      "required": false,
+      "type": "integer"
+    },
+    "meta": {
+      "required": false,
+      "type": "object",
+      "properties": {
+      }
+    }
+  }
+}

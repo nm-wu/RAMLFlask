@@ -1,0 +1,16 @@
+{
+  "ID": 1,
+  "post": {
+  },
+  "author": {
+  },
+  "date": "some string",
+  "URL": "some string",
+  "short_URL": "some string",
+  "content": "some string",
+  "status": "some string",
+  "parent": false,
+  "type": "some string",
+  "meta": {
+  }
+}

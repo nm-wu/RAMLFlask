@@ -1,0 +1,10 @@
+{
+  "ID": 1,
+  "name": "some string",
+  "slug": "some string",
+  "description": "some string",
+  "post_count": 1,
+  "parent": 1,
+  "meta": {
+  }
+}

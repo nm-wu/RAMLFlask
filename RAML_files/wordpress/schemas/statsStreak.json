@@ -1,0 +1,79 @@
+{
+  "required" : true ,
+  "$schema" : "http://json-schema.org/draft-03/schema" ,
+  "type" : "object" ,
+  "properties" : {
+    "streak" : {
+      "type" : "object" ,
+      "required" : false ,
+      "properties" : {
+        "long" : {
+          "type" : "object" ,
+          "required" : false ,
+          "properties" : {
+            "start" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "end" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "length" : {
+              "type" : "number" ,
+              "required" : false
+            }
+          }
+        } ,
+        "current" : {
+          "type" : "object" ,
+          "required" : false ,
+          "properties" : {
+            "start" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "end" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "length" : {
+              "type" : "number" ,
+              "required" : false
+            }
+          }
+        }
+      }
+    } ,
+    "data" : {
+      "type" : "object" ,
+      "required" : false ,
+      "properties" : {
+        "1386491701" : {
+          "type" : "number" ,
+          "required" : false
+        } ,
+        "1388302785" : {
+          "type" : "number" ,
+          "required" : false
+        } ,
+        "1388729604" : {
+          "type" : "number" ,
+          "required" : false
+        } ,
+        "1389341606" : {
+          "type" : "number" ,
+          "required" : false
+        } ,
+        "1389946433" : {
+          "type" : "number" ,
+          "required" : false
+        } ,
+        "1390198144" : {
+          "type" : "number" ,
+          "required" : false
+        }
+      }
+    }
+  }
+}

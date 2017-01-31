@@ -1,0 +1,61 @@
+description: Create or Edit a Post.
+body: 
+  application/x-www-form-urlencoded: 
+    formParameters: 
+      tags: 
+        description: Comma separated list of tags (name or id)
+      comments_open: 
+        description: Should the post be open to comments?
+        type: boolean
+      status: 
+        description: "publish: (default) Publish the post. private: Privately publish the post. draft: Save the post as a draft. pending: Mark the post as pending editorial approval."
+        enum: 
+          - publish
+          - private
+          - draft
+          - pending
+        default: publish
+        example: private
+      excerpt: 
+        description: An optional post excerpt.
+      parent: 
+        description: "The post ID of the new post's parent."
+        type: integer
+      format: 
+        description: "standard: (default) Standard aside: Aside chat: Chat gallery: Gallery link: Link image: Image quote: Quote status: Status video: Video audio: Audio"
+        enum: 
+          - standard
+          - aside
+          - chat
+          - gallery
+          - link
+          - image
+          - quote
+          - status
+          - video
+          - audio
+        default: standard
+        example: aside
+      publicize: 
+        description: True or false if the post be publicized to external services. An array of services if we only want to publicize to a select few. Defaults to true.
+        type: boolean
+        default: true
+      date: 
+        description: "The post's creation time."
+      publicize_message: 
+        description: Custom message to be publicized to external services.
+      password: 
+        description: The plaintext password protecting the post, or, more likely, the empty string if the post is not password protected.
+      content: 
+        description: The post content.
+      title: 
+        description: The post title.
+      pings_open: 
+        description: Should the post be open to comments?
+        type: boolean
+      slug: 
+        description: The name (slug) for the post, used in URLs.
+      categories: 
+        description: Comma separated list of categories (name or id)
+      metadata: 
+        description: "Array of metadata objects containing the following properties: `key` (metadata key), `id` (meta ID), `previous_value` (if set, the action will only occur for the provided previous value), `value` (the new value to set the meta to), `operation` (the operation to perform: `update` or `add`; defaults to `update`). All unprotected meta keys are available by default for read requests. Both unprotected and protected meta keys are available for authenticated requests with proper capabilities. Protected meta keys can be made available with the rest_api_allowed_public_metadata filter."
