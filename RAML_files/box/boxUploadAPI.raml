@@ -1,0 +1,97 @@
+#%RAML 0.8
+title: Box.com upload API
+version: 2.0
+baseUri: "https://upload.box.com/api/{version}"
+mediaType: application/json
+securitySchemes:
+  - oauth_2_0: !include securitySchemes/oauth_2_0.raml
+schemas:
+  - uploadFile-request: !include schemas/UploadFile-request.json
+  - uploadFile-response: !include schemas/UploadFile-response.json
+  - uploadNewVersionFile-request: !include schemas/UploadNewVersionFile-request.json
+resourceTypes:
+  - standardResponse: !include resourceTypes/standardResponse.raml
+securedBy: [ oauth_2_0 ]
+/files: 
+  /content: 
+    type: standardResponse
+    post: 
+      description: |
+        Upload a File.
+        Use the Uploads API to allow users to add a new file. The user can then
+        upload a file by specifying the destination folder for the file. If the user
+        provides a file name that already exists in the destination folder, the
+        user will receive an error. A different Box URL,
+        https://upload.box.com/api/2.0/files/content, handles uploads. This API
+        uses the multipart post method to complete all upload tasks. You can
+        optionally specify a Content-MD5 header with the SHA1 hash of the file
+        to ensure that the file is not corrupted in transit.
+        Supported Filenames - The only names that will not be supported are those
+        that contain / or \, names with leading or trailing spaces, and the special
+        names '.' and '..'.
+        A full file object is returned inside of a collection if the ID is valid and
+        if the update is successful. An error is thrown when a name collision occurs.
+      headers: 
+        Content-MD5: 
+          description: The SHA1 hash of the file
+      body: 
+        multipart/form-data: 
+          formParameters: 
+            filename: 
+              description: The name of the file to be uploaded
+              type: file
+              required: true
+            parent_Id: 
+              description: The ID of folder where this file should be uploaded
+              type: integer
+              required: true
+            content_created_at: 
+              description: The time this file was created on the user’s machine. See here for more details.
+            content_modified_at: 
+              description: The time this file was last modified on the user’s machine. See here for more details.
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: uploadFile-response
+              example: !include examples/UploadFile-response-example.json
+  /{fileId}/content: 
+    type: standardResponse
+    uriParameters: 
+      fileId: 
+        description: "Box's unique string identifying this file."
+    post: 
+      description: |
+        Upload a New Version of a File.
+        Note that uploads are handled through https://upload.box.com. This method is
+        used to upload a new version of an existing file in a user's account. Similar
+        to regular file uploads, these are performed as multipart form uploads An
+        optional If-Match header can be included to ensure that client only overwrites
+        the file if it knows about the latest version. The filename on Box will remain
+        the same as the previous version. To update the file's name, use PUT /files/{id}
+        Supported Filenames - The only names that will not be supported are those tha
+        contain / or \, names with leading or trailing spaces, and the special names
+        '.' and '..'.
+        The updated file object will be returned inside of a file collection. Errors
+        may occur due to bad filenames and invalid file IDs.
+      headers: 
+        If-Match: 
+          description: This is in the field of the file object.
+      body: 
+        multipart/form-data: 
+          formParameters: 
+            filename: 
+              description: The name of the file to be uploaded
+              type: file
+              required: true
+            content_modified_at: 
+              description: The time this file was last modified on the user’s machine. See here for more details.
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: uploadFile-response
+              example: !include examples/UploadNewVersionFile-response-example.json
+documentation: 
+  - title: Headline
+    content: !include docs/boxUploadAPI/headline.md
