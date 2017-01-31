@@ -1,0 +1,90 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "properties": {
+    "type": {
+      "descriptipon": "For tasks is 'task'.",
+      "type": "string"
+    },
+    "id": {
+      "descriptipon": "The unique ID of this task.",
+      "type": "string"
+    },
+    "item": {
+      "type": "object",
+      "descriptipon": "The file associated with this task.",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "sequence_id": {
+          "type": "string"
+        },
+        "etag": {
+          "type": "string"
+        },
+        "sha1": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "due_at": {
+      "type": "string",
+      "descriptipon": "The date at which this task is due."
+    },
+    "action": {
+      "descriptipon": "The action the task assignee will be prompted to do. Must be 'review'",
+      "type": "string"
+    },
+    "message": {
+      "descriptipon": "A message that will be included with this task.",
+      "type": "string"
+    },
+    "task_assignment_collection": {
+      "type": "array",
+      "tasks": {
+        "properties": {
+          "total_count": {
+            "type": "integer"
+          },
+          "entries": [
+            {
+              "type": "object"
+            }
+          ],
+          "type": "array"
+        },
+        "type": "object"
+      }
+    },
+    "is_completed": {
+      "type": "boolean"
+    },
+    "created_by": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "login": {
+          "type": "string"
+        }
+      }
+    },
+    "created_at": {
+      "type": "string"
+    }
+  }
+}

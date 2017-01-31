@@ -1,0 +1,72 @@
+{
+  "required" : true ,
+  "$schema" : "http://json-schema.org/draft-03/schema" ,
+  "type" : "array" ,
+  "items" : [
+    {
+      "type" : "object" ,
+      "properties" : {
+        "type" : {
+          "type" : "string" ,
+          "required" : false
+        } ,
+        "id" : {
+          "type" : "string" ,
+          "required" : false
+        } ,
+        "is_reply_comment" : {
+          "type" : "boolean" ,
+          "required" : false
+        } ,
+        "message" : {
+          "type" : "string" ,
+          "required" : false
+        } ,
+        "created_by" : {
+          "type" : "object" ,
+          "required" : false ,
+          "properties" : {
+            "type" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "id" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "name" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "login" : {
+              "type" : "string" ,
+              "required" : false
+            }
+          }
+        } ,
+        "created_at" : {
+          "type" : "string" ,
+          "required" : false
+        } ,
+        "item" : {
+          "type" : "object" ,
+          "required" : false ,
+          "properties" : {
+            "id" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "type" : {
+              "type" : "string" ,
+              "required" : false
+            }
+          }
+        } ,
+        "modified_at" : {
+          "type" : "string" ,
+          "required" : false
+        }
+      }
+    }
+  ]
+}
