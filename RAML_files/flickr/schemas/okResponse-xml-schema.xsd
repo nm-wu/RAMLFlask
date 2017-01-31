@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="rsp">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="method" minOccurs="0" maxOccurs="1" type="xsd:normalizedString"/>
+        <xsd:element name="format" minOccurs="0" maxOccurs="1" type="xsd:normalizedString"/>
+        <xsd:element name="foo" minOccurs="0" maxOccurs="1" type="xsd:normalizedString"/>
+        <xsd:element name="api_key" minOccurs="0" maxOccurs="1" type="xsd:normalizedString"/>
+      </xsd:sequence>
+      <xsd:attribute name="stat" type="xsd:normalizedString" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

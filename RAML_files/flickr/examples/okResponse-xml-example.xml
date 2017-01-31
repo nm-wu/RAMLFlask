@@ -1,0 +1,6 @@
+<rsp stat="ok">
+<method>flickr.test.echo</method>
+<format>rest</format>
+<foo>bar</foo>
+<api_key>bccf11b5a7b2c299685eb81277294927</api_key>
+</rsp>
