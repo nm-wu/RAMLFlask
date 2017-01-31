@@ -1,0 +1,20 @@
+#%RAML 0.8
+title: Grooveshark API
+version: 3
+baseUri: http://api.grooveshark.com/ws3.php
+schemas:
+  - grooveshark: !include schemas/grooveshark-schema.json
+/: 
+  post: 
+    description: |
+      All possible methods are send with this POST request.
+    queryParameters: 
+      sig: 
+        description: Signature.
+        required: true
+    body: 
+      application/json:
+        schema: grooveshark
+documentation: 
+  - title: Headline
+    content: !include docs/headline.md

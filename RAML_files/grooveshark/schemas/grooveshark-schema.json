@@ -1,0 +1,110 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "required": true,
+  "properties": {
+    "header": {
+      "type": "object",
+      "required": true,
+      "properties": {
+        "sessionID": {
+          "type": "string",
+          "required": true
+        },
+        "wsKey": {
+          "type": "string",
+          "required": true
+        }
+      }
+    },
+    "method": {
+      "enum": [
+        "addUserLibrarySongs",
+        "getUserLibrarySongs",
+        "addUserLibrarySongsEx",
+        "removeUserLibrarySongs",
+        "getUserPlaylistsSubscribed",
+        "getUserPlaylists",
+        "getUserFavoriteSongs",
+        "removeUserFavoriteSongs",
+        "logout",
+        "authenticateToken",
+        "getUserInfo",
+        "getUserSubscriptionDetails",
+        "addUserFavoriteSong",
+        "subscribePlaylist",
+        "unsubscribePlaylist",
+        "getCountry",
+        "getPlaylistInfo",
+        "getPopularSongsToday",
+        "getPopularSongsMonth",
+        "pingService",
+        "getServiceDescription",
+        "undeletePlaylist",
+        "deletePlaylist",
+        "getPlaylistSongs",
+        "getPlaylist",
+        "setPlaylistSongs",
+        "createPlaylist",
+        "renamePlaylist",
+        "authenticate",
+        "getUserIDFromUsername",
+        "getAlbumsInfo",
+        "getAlbumSongs",
+        "getArtistsInfo",
+        "getSongsInfo",
+        "getDoesAlbumExist",
+        "getDoesSongExist",
+        "getDoesArtistExist",
+        "authenticateUser",
+        "getArtistVerifiedAlbums",
+        "getArtistAlbums",
+        "getArtistPopularSongs",
+        "getPlaylistSearchResults",
+        "getAlbumSearchResults",
+        "getSongSearchResults",
+        "getArtistSearchResults",
+        "getStreamKeyStreamServer",
+        "getSongURLFromTinysongBase62",
+        "getSongURLFromSongID",
+        "getPlaylistURLFromPlaylistID",
+        "getTinysongURLFromSongID",
+        "getUserPlaylistsByUserID",
+        "getUserInfoFromUserID",
+        "getSimilarArtists",
+        "startSession",
+        "getTrialInfo",
+        "createTrial",
+        "getAutocompleteSearchResults",
+        "getSubscriberStreamKey",
+        "markStreamKeyOver30Secs",
+        "Subscriber streams",
+        "markSongComplete",
+        "getAutoplaySong",
+        "getAutoplayTags",
+        "startAutoplayTag",
+        "startAutoplay",
+        "removeVoteUpAutoplaySong",
+        "voteUpAutoplaySong",
+        "removeSongFromAutoplay",
+        "addSongToAutoplay",
+        "voteDownAutoplaySong",
+        "removeVoteDownAutoplaySong",
+        "getSongIDFromTinysongBase62",
+        "registerUser"
+      ],
+      "required": true
+    },
+    "parameters": {
+      "type": "object",
+      "required": true,
+      "properties": {
+        "oneOf": {
+          "type": "array",
+          "items": {
+          }
+        }
+      }
+    }
+  }
+}
