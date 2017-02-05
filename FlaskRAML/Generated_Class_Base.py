@@ -7,10 +7,10 @@ from importlib import import_module
 class Generated_Class_Base(object):
     """Base Class for generated classes"""
 
-    def __init__(self, request, resp_t=(False, [200, 400, 500])):
+    def __init__(self, request, resp_t=(True, [200, 400, 500])):
         self.req = request
-        self.enforced_type = True
-        self.resp_t = resp_t
+        self.enforced_type = resp_t[0]
+        self.resp_t = resp_t[1]
 
     def pre_req_handler(self):
         pre_r_delegate = pre_req_delegate.Pre_Req_Delegate()
@@ -54,10 +54,10 @@ class Generated_Class_Base(object):
 
     def check_response_code(self, code):
         if self.enforced_type:
-            if code in  self.resp_t:
-                return False
-            else:
+            if code in self.resp_t:
                 return True
+            else:
+                return False
         else:
             return True
 
@@ -151,6 +151,7 @@ def validate_request_parameter(reqs, input):
     else:
         return Response_Element(False, ('', 400))
 
+
 def validate_query_string(reqs, input):
     status = True
     for r in reqs:
@@ -196,12 +197,13 @@ def find_corresponding_param(param, uri_inputs=None, get_inputs=None, body_input
         return mime_type
 
     keyword = param.split('_')
+    find_param = "_".join(keyword[1:])
 
     if keyword[0] == 'URI':
-        return uri_inputs.get(keyword[1], None)
+        return uri_inputs.get(find_param, None)
 
     if keyword[0] == 'GET':
-        return get_inputs.get(keyword[1], None)
+        return get_inputs.get(find_param, None)
 
     if keyword[0] == 'BODY':
         return body_inputs
@@ -211,6 +213,9 @@ def perform_validation(name, value, validation):
     v_type = type(value)
     if v_type == unicode or v_type == str:
         v_type = 'string'
+
+    if v_type == int:
+        v_type = 'integer'
 
     if validation['enum'] != None:
         match = False
@@ -223,7 +228,10 @@ def perform_validation(name, value, validation):
 
     if validation['type'] == v_type:
         if validation['type'] == 'string':
-            if len(value) > validation['max_length'] or len(value) < validation['min_length']:
+            if len(value) > validation['max_length'] and validation['max_length'] != None:
+                return False
+
+            if len(value) < validation['min_length'] and validation['min_length'] != None:
                 return False
 
         if validation['type'] == 'int':

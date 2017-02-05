@@ -3,8 +3,8 @@ class {{ tmpl.class_name }}(Generated_Class_Base):
 
     def __init__(self, request, resp_t={{ tmpl.resp_types }}):
         self.req = request
-        self.enforced_type = True
-        self.resp_t = resp_t
+        self.enforced_type = resp_t[0]
+        self.resp_t = resp_t[1]
 
     def auth_handler(self):
         {{ tmpl.auth }}

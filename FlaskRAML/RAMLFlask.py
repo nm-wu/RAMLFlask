@@ -10,6 +10,8 @@ from pathlib2 import Path
 from importlib import import_module
 from werkzeug.datastructures import ImmutableMultiDict
 import time
+from random import choice
+from string import ascii_uppercase
 import datetime
 from collections import OrderedDict
 
@@ -22,7 +24,6 @@ class Server:
         self.RAML_FILE = raml_file
         CONFIG_FILE = os.path.dirname(os.path.realpath(__file__)) + "/config.ini"
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        print dir_path
         self.raml = ramlfications.parse(self.RAML_FILE, CONFIG_FILE)
 
         # Allows to determine whether base class responses will return success or error messages
@@ -48,7 +49,7 @@ class Server:
 
     def generate_code(self):
 
-        # Create directories for the generated, and handwritten routes, as well as for the delegates
+        # Create directories for the generated, and handwritten hw_imports_test, as well as for the delegates
         create_sys_folder(self.generated_dir)
         create_sys_folder(self.routes_dir)
         create_sys_folder(self.delegates_dir)
@@ -71,7 +72,7 @@ class Server:
         generated_classes += Path(fn).read_text() + '\n'
 
         # Print resource count
-        info_print('Starting route generation: ' + str(len(self.raml.resources)) + ' routes')
+        info_print('Starting route generation: ' + str(len(self.raml.resources)) + ' hw_imports_test')
 
         # Iterate over all resources to generate automatic base implementations
         for res in self.raml.resources:
@@ -219,7 +220,7 @@ class Server:
 
     def bind_routes(self):
         if not os.path.exists(self.generated_dir):
-            raise Exception("No generated routes exist!")
+            raise Exception("No generated hw_imports_test exist!")
 
         # Add basic imports
         bindings = 'from flask import Blueprint, request' + '\n'
@@ -251,7 +252,7 @@ class Server:
                 uri_vals = ",".join(uri_vals)
 
                 bindings += '@route_imports.route(\'' + raml_version + flask_path + '\', methods=[\'' + res.method + '\'])' + '\n'
-                bindings += 'def handle_' + base_name + '(' + uri_vals + '):' + '\n'
+                bindings += 'def handle_' + base_name + '_' + (''.join(choice(ascii_uppercase) for i in range(20))) + '(' + uri_vals + '):' + '\n'
                 bindings += generate_handler(base_name, handwritten_classes)
                 bindings += '    return handler.handle_request()\n\n\n\n'
 
@@ -267,7 +268,7 @@ class Server:
         check_validations(old_dict, new_dict)
 
         # Analyze the return types
-        new_dict = open_new_dict('rtype', self.new_dict, new_f)
+        new_dict = open_new_dict('rtype', self.new_dict2, new_f)
         old_dict = open_old_dict('rtype', self.file_name, old_f)
         check_returnt(old_dict, new_dict)
 
@@ -337,22 +338,11 @@ class Server:
         self.test_analysis()
         self.start_server()
 
-    def exec_all_timing(self):
-        s_time = time.time()
-        self.generate_code()
-        time_print('Code generation finished after ' + str(round(time.time() - s_time, 2)) + ' seconds')
-        self.bind_routes()
-        time_print('Route binding finished after ' + str(round(time.time() - s_time, 2)) + ' seconds')
-        self.static_analysis()
-        time_print('Static analysis finished after ' + str(round(time.time() - s_time, 2)) + ' seconds')
-        self.test_analysis()
-        time_print('Test analysis finished after ' + str(round(time.time() - s_time, 2)) + ' seconds')
-        self.start_server()
 
 def create_sys_folder(dir):
     if not os.path.exists(dir):
         os.makedirs(dir)
-        text_file = open(dir + '__init__.py', 'w')
+        text_file = open(dir + '/__init__.py', 'w')
         text_file.write('')
         text_file.close()
 
@@ -401,6 +391,8 @@ def generate_handwritten_imports(folder):
     handwritten_imports = []
     for x in os.walk(folder):
         folder = x[0].replace('/', '.').replace('\\', '.') + '.'
+        while folder[0] == '.':
+            folder = folder[1:]
 
         for y in x[2]:
             f_split = y.split('.', 1)
@@ -502,41 +494,40 @@ def build_cls_name(path=None, method=None, display_name=None, force_path=False):
 
 
 def open_old_dict(d_type, current_file, old_f):
+    dir = './generated/structures/'
+
     if old_f != None:
-        open_file = '../generated/structures/' + old_f + '_' + d_type + '.py'
+        open_file = dir + old_f + '_' + d_type + '.py'
         fn = os.path.join(os.path.dirname(__file__), open_file)
         old_dict = eval(Path(fn).read_text())
         return old_dict
 
-    validations = os.listdir('./generated/structures/')
+    validations = os.listdir(dir)
     highest_valid = 0
     highest_rtype = 0
     selected_valid = ''
     for v in validations:
         if v != '__init__.py' and v != current_file:
-            if int(str.split(v, '_')[0]) > highest_valid and str.split(v, '_')[1] == 'valid.py':
+            ending = d_type + '.py'
+            if int(str.split(v, '_')[0]) > highest_valid and str.split(v, '_')[1] == ending:
                 selected_valid = v
-
-            if int(str.split(v, '_')[0]) > highest_rtype and str.split(v, '_')[1] == 'rtype.py':
-                selected_rtype = v
 
     if selected_valid == '':
         return None
 
-    open_file = '../generated/structures/' + selected_valid
-    fn = os.path.join(os.path.dirname(__file__), open_file)
-    old_dict = eval(Path(fn).read_text())
-    return old_dict
+    open_file = dir + selected_valid
+    file = open(open_file, 'r').read()
+    return eval(file)
 
 
 def open_new_dict(d_type, current_dict, new_f):
     if new_f == None:
         return current_dict
     else:
-        open_file = '../generated/structures/' + new_f + '_' + d_type + '.py'
-        fn = os.path.join(os.path.dirname(__file__), open_file)
-        new_dict = eval(Path(fn).read_text())
-        return new_dict
+        dir = './generated/structures/'
+        open_file = dir + new_f + '_' + d_type + '.py'
+        file = open(open_file, 'r').read()
+        return eval(file)
 
 
 def check_validations(old_dict, new_dict):
@@ -571,9 +562,9 @@ def check_validations(old_dict, new_dict):
                     o_get = res[2]
                     o_body = res[3]
 
-                    if compare_get(n_get, o_get, changed) == True:
+                    if compare_get(n_get, o_get) == True:
                         changed = True
-                    if compare_body(n_body, o_body, changed) == True:
+                    if compare_body(n_body, o_body) == True:
                         changed = True
 
         if changed == False:
@@ -604,8 +595,10 @@ def populate_params(new_res, old_res):
 
 
 def iterate_var_map(var_map, val):
+    changed = False
     for var_key in var_map:
         if var_map[var_key][1] == None:
+            changed = True
             info_print('The validation type ' + var_key + ' was added to ' + val)
         else:
             for var_key2 in var_map[var_key][0]:
@@ -613,8 +606,9 @@ def iterate_var_map(var_map, val):
                     changed = True
                     info_print('The validation type ' + var_key + ' was added to ' + val)
 
+    return changed
 
-def compare_get(n_get, o_get, changed):
+def compare_get(n_get, o_get):
     changed = False
     get_map = {}
     for idx in range(len(n_get)):
@@ -625,7 +619,7 @@ def compare_get(n_get, o_get, changed):
             get_map[o_get[idx]['name']][1] = idx
         else:
             changed = True
-            info_print('The query parameter ' + get_map[o_get[idx]['name']] + ' was removed')
+            info_print('The query parameter ' + o_get[idx]['name'] + ' was removed')
 
     for query_p in get_map:
         if get_map[query_p][1] == None:
@@ -633,14 +627,14 @@ def compare_get(n_get, o_get, changed):
             info_print('The query parameter ' + query_p + ' was added')
         else:
             for key in n_get[get_map[query_p][0]].keys():
-                if n_get[get_map[query_p][0]][key] != o_get[get_map[query_p][1]][key]:
+                if n_get[get_map[query_p][0]].get(key) != o_get[get_map[query_p][1]].get(key):
                     changed = True
                     info_print('The validation for query parameter ' + query_p + ' was changed: value of ' + key + ' was modified')
 
     return changed
 
 
-def compare_body(n_body, o_body, changed):
+def compare_body(n_body, o_body):
     changed = False
     body_map = {}
     for idx in range(len(n_body)):
@@ -656,10 +650,10 @@ def compare_body(n_body, o_body, changed):
         for idx2 in range(len(o_body[idx])):
             if o_body[idx][idx2]['mime-type'] in body_map:
                 body_map[o_body[idx][idx2]['mime-type']][1] = [
-                    n_body[idx][idx2]['errors'],
-                    n_body[idx][idx2]['example'],
-                    n_body[idx][idx2]['schema'],
-                    n_body[idx][idx2]['params']
+                    o_body[idx][idx2]['errors'],
+                    o_body[idx][idx2]['example'],
+                    o_body[idx][idx2]['schema'],
+                    o_body[idx][idx2]['params']
                 ]
             else:
                 changed = True
@@ -672,7 +666,7 @@ def compare_body(n_body, o_body, changed):
             info_print('The body validation with Mime Type ' + val + ' was added')
         else:
             if body_map[val][0][0] != body_map[val][1][0]:
-                info_print('The potential errors for the body validation of ' + val + ' was changed')
+                info_print('The potential errors for the body validation of ' + val + ' have been changed')
                 changed = True
 
             if body_map[val][0][1] != body_map[val][1][1]:
@@ -758,7 +752,8 @@ def compare_body(n_body, o_body, changed):
                         info_print('The validation type ' + body_map[val][1][3][idx]['validation'][
                             'name'] + ' was removed from ' + val)
 
-            iterate_var_map(var_map, val)
+            if iterate_var_map(var_map, val) == True:
+                changed = True
 
     return changed
 
@@ -785,22 +780,24 @@ def check_returnt(old_dict, new_dict):
 
         for r in removed_rtype:
             changed = True
-            info_print('Return type ' + r + ' was added')
+            info_print('Return type ' + r + ' was removed')
 
         new_keys = set(new_keys) - set(removed_rtype)
 
         for comp in new_keys:
+            nx = new_dict.get(comp, None)
+            ox = old_dict.get(comp, None)
+            if nx != None and ox != None:
+                if new_dict[comp] != old_dict[comp]:
+                    changed = True
+                    ad = new_dict[comp] - old_dict[comp]
+                    rv = old_dict[comp] - new_dict[comp]
 
-            if new_dict[comp] != old_dict[comp]:
-                changed = True
-                ad = new_dict[comp] - old_dict[comp]
-                rv = old_dict[comp] - new_dict[comp]
+                    for a in ad:
+                        info_print('Return type ' + str(a) + ' was added to ' + comp)
 
-                for a in ad:
-                    info_print('Return type ' + a + ' was added to ' + comp)
-
-                for r in rv:
-                    info_print('Return type ' + r + ' was removed from ' + comp)
+                    for r in rv:
+                        info_print('Return type ' + str(r) + ' was removed from ' + comp)
 
         if changed == False:
             info_print('No return type changes')
