@@ -4,8 +4,20 @@ FlaskRAML is a tool that allows the development of web APIs with Flask, in combi
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system. First off, you will need a copy of this repository. Then, you can just reference the FlaskRAML files in your project to utilise them.
 
+## Creating a simple application
+Creating a basic application essentially involves creating a RAML file, and then referencing it via RAMLFlask. To only run the generated code, this minimal example will work, independent of the contents of the RAML file. Additional code is only needed to include handwritten code extensions.
+``` python
+from RAMLFlask.Generator import Generator
+from RAMLFlask.Server import Server
+from RAMLFlask.Comparison import Comparison
+
+gen = Generator('./example.raml')
+comp = Comparison()
+Server(gen, comp).exec_all()
+```
+
 ## Running the tests
-This repository contains several tests, which should help verify that FlaskRAML is implemented correctly, and actually delivers the benefits mentioned before. Below, each test is described.
+This repository contains several tests, which should help verify that FlaskRAML is implemented correctly, and actually delivers the benefits mentioned before. Below, each test is described. These tests allow to replicate all evaluation measurements mentioned in the corresponding thesis document.
 
 ### Unit tests
 FlaskRAML incldues a collection of unit tests, with the purpose of verifying that all functions created for FlaskRAML are working as intended. This should help confirm that the current version of FlaskRAML is working, which also makes it suitable for continued development while verifying that everything is working as intended.
