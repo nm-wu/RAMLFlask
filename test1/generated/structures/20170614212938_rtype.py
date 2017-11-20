@@ -1,0 +1,1 @@
+{'DELETE /basic-auth': set([401])}

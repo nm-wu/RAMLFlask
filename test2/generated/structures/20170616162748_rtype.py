@@ -1,0 +1,1 @@
+{'GET /streaming/<int:n>': [{'body': None, 'code': 200}, {'body': None, 'code': 400}, {'body': None, 'code': 500}]}

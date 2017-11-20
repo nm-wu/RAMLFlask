@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="rsp">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="err" minOccurs="0" maxOccurs="1">
+          <xsd:complexType>
+            <xsd:simpleContent>
+              <xsd:extension base="xsd:string">
+                <xsd:attribute name="code" type="xsd:normalizedString" use="required"/>
+                <xsd:attribute name="msg" type="xsd:normalizedString" use="required"/>
+              </xsd:extension>
+            </xsd:simpleContent>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+      <xsd:attribute name="stat" type="xsd:normalizedString" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

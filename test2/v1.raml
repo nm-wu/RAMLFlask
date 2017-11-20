@@ -1,0 +1,11 @@
+#%RAML 0.8
+---
+title: Example API
+version: 1
+baseUri: http://example.com
+/streaming/<int:n>:
+  displayName: Streaming
+  description: Stream n messages
+  get:
+    responses:
+      200:

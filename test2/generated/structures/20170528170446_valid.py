@@ -1,0 +1,1 @@
+{'GET /stream/<int:n>': []}

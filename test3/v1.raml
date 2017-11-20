@@ -1,0 +1,15 @@
+#%RAML 0.8
+---
+title: Example API
+version: 1
+baseUri: http://example.com
+/threads/search:
+  displayName: Thread Search
+  get:
+    responses:
+      501:
+        body:
+          text/plain:
+      200:
+        body:
+          application/json:

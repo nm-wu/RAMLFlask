@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "required": false,
+  "type": "object",
+  "properties": {
+    "ID": {
+      "required": false,
+      "type": "integer"
+    },
+    "name": {
+      "required": false,
+      "type": "string"
+    },
+    "slug": {
+      "required": false,
+      "type": "string"
+    },
+    "description": {
+      "required": false,
+      "type": "string"
+    },
+    "post_count": {
+      "required": false,
+      "type": "integer"
+    },
+    "parent": {
+      "required": false,
+      "type": "integer"
+    },
+    "meta": {
+      "required": false,
+      "type": "object",
+      "properties": {
+      }
+    }
+  }
+}

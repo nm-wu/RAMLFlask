@@ -1,0 +1,24 @@
+post?: 
+  responses: 
+    200: 
+    403: 
+      body: 
+        application/json: 
+          schema: notifications
+          example: |
+            {
+                "error": "authorization_required",
+                "message": "An active access token must be used retrieve notifications."
+            }
+get?: 
+  responses: 
+    200: 
+    403: 
+      body: 
+        application/json: 
+          schema: notifications
+          example: |
+            {
+                "error": "authorization_required",
+                "message": "An active access token must be used retrieve notifications."
+            }

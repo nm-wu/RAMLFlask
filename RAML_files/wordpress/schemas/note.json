@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "required": false,
+  "type": "object",
+  "properties": {
+    "id": {
+      "required": false,
+      "type": "integer"
+    },
+    "unread": {
+      "required": false,
+      "type": "integer"
+    },
+    "noticon": {
+      "required": false,
+      "type": "string"
+    },
+    "type": {
+      "required": false,
+      "type": "string"
+    },
+    "timestamp": {
+      "required": false,
+      "type": "integer"
+    },
+    "date": {
+      "required": false,
+      "type": "string"
+    },
+    "subject": {
+      "required": false,
+      "type": "string"
+    },
+    "snippet": {
+      "required": false,
+      "type": "string"
+    },
+    "body": {
+      "required": false,
+      "type": "string"
+    },
+    "status": {
+      "required": false,
+      "type": "string"
+    },
+    "meta": {
+      "required": false,
+      "type": "string"
+    },
+    "note": {
+      "required": false,
+      "type": "object",
+      "properties": {
+      }
+    }
+  }
+}

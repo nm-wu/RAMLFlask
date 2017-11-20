@@ -1,0 +1,2120 @@
+#%RAML 0.8
+title: GMail API
+version: v1
+baseUri: https://www.googleapis.com/gmail/{version}/users
+mediaType: application/json
+securitySchemes: 
+  - oauth_2_0: 
+      description: ""
+      type: OAuth 2.0
+      describedBy: 
+        headers: 
+          Authorization: 
+            description: |
+              Used to send a valid OAuth 2 access token. Do not use together with
+              the "access_token" queryParameters string parameter.
+        queryParameters: 
+          access_token: 
+            description: |
+              Used to send a valid OAuth 2 access token. Do not use together with
+              the "Authorization" header
+      settings: 
+        authorizationUri: https://accounts.google.com/o/oauth2/auth
+        accessTokenUri: https://accounts.google.com/o/oauth2/token
+        authorizationGrants: [ code ]
+        scopes: [ "https://mail.google.com/" ]
+schemas: 
+  - messageFull: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "id" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "threadId" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "labelIds" : {
+              "type" : "array" ,
+              "required" : false ,
+              "items" : [
+                {
+                  "type" : "string"
+                }
+              ]
+            } ,
+            "snippet" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "historyId" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "payload" : {
+              "type" : "object" ,
+              "required" : false ,
+              "properties" : {
+                "mimeType" : {
+                  "type" : "string" ,
+                  "required" : false
+                } ,
+                "filename" : {
+                  "type" : "string" ,
+                  "required" : false
+                } ,
+                "headers" : {
+                  "type" : "array" ,
+                  "required" : false ,
+                  "items" : [
+                    {
+                      "type" : "object" ,
+                      "properties" : {
+                        "name" : {
+                          "type" : "string" ,
+                          "required" : false
+                        } ,
+                        "value" : {
+                          "type" : "string" ,
+                          "required" : false
+                        }
+                      }
+                    }
+                  ]
+                } ,
+                "body" : {
+                  "type" : "object" ,
+                  "required" : false ,
+                  "properties" : {
+                    "size" : {
+                      "type" : "number" ,
+                      "required" : false
+                    }
+                  }
+                } ,
+                "parts" : {
+                  "type" : "array" ,
+                  "required" : false ,
+                  "items" : [
+                    {
+                      "type" : "object" ,
+                      "properties" : {
+                        "mimeType" : {
+                          "type" : "string" ,
+                          "required" : false
+                        } ,
+                        "filename" : {
+                          "type" : "string" ,
+                          "required" : false
+                        } ,
+                        "headers" : {
+                          "type" : "array" ,
+                          "required" : false ,
+                          "items" : [
+                            {
+                              "type" : "object" ,
+                              "properties" : {
+                                "name" : {
+                                  "type" : "string" ,
+                                  "required" : false
+                                } ,
+                                "value" : {
+                                  "type" : "string" ,
+                                  "required" : false
+                                }
+                              }
+                            }
+                          ]
+                        } ,
+                        "body" : {
+                          "type" : "object" ,
+                          "required" : false ,
+                          "properties" : {
+                            "size" : {
+                              "type" : "number" ,
+                              "required" : false
+                            }
+                          }
+                        } ,
+                        "parts" : {
+                          "type" : "array" ,
+                          "required" : false ,
+                          "items" : [
+                          ]
+                        }
+                      }
+                    } , {
+                      "type" : "object" ,
+                      "properties" : {
+                        "partId" : {
+                          "type" : "string" ,
+                          "required" : false
+                        } ,
+                        "mimeType" : {
+                          "type" : "string" ,
+                          "required" : false
+                        } ,
+                        "filename" : {
+                          "type" : "string" ,
+                          "required" : false
+                        } ,
+                        "headers" : {
+                          "type" : "array" ,
+                          "required" : false ,
+                          "items" : [
+                            {
+                              "type" : "object" ,
+                              "properties" : {
+                                "name" : {
+                                  "type" : "string" ,
+                                  "required" : false
+                                } ,
+                                "value" : {
+                                  "type" : "string" ,
+                                  "required" : false
+                                }
+                              }
+                            }
+                          ]
+                        } ,
+                        "body" : {
+                          "type" : "object" ,
+                          "required" : false ,
+                          "properties" : {
+                            "attachmentId" : {
+                              "type" : "string" ,
+                              "required" : false
+                            } ,
+                            "size" : {
+                              "type" : "number" ,
+                              "required" : false
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            } ,
+            "sizeEstimate" : {
+              "type" : "number" ,
+              "required" : false
+            }
+          }
+        }
+  - invalidCredentials: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "error" : {
+              "type" : "object" ,
+              "required" : false ,
+              "properties" : {
+                "errors" : {
+                  "type" : "array" ,
+                  "required" : false ,
+                  "items" : [
+                    {
+                      "type" : "object" ,
+                      "properties" : {
+                        "domain" : {
+                          "type" : "string" ,
+                          "required" : false
+                        } ,
+                        "reason" : {
+                          "type" : "string" ,
+                          "required" : false
+                        } ,
+                        "message" : {
+                          "type" : "string" ,
+                          "required" : false
+                        } ,
+                        "locationType" : {
+                          "type" : "string" ,
+                          "required" : false
+                        } ,
+                        "location" : {
+                          "type" : "string" ,
+                          "required" : false
+                        }
+                      }
+                    }
+                  ]
+                } ,
+                "code" : {
+                  "type" : "number" ,
+                  "required" : false
+                } ,
+                "message" : {
+                  "type" : "string" ,
+                  "required" : false
+                }
+              }
+            }
+          }
+        }
+  - message: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "id" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "threadId" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "labelIds" : {
+              "type" : "array" ,
+              "required" : false ,
+              "items" : [
+                {
+                  "type" : "string"
+                }
+              ]
+            }
+          }
+        }
+  - notFound: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "error" : {
+              "type" : "object" ,
+              "required" : false ,
+              "properties" : {
+                "errors" : {
+                  "type" : "array" ,
+                  "required" : false ,
+                  "items" : [
+                    {
+                      "type" : "object" ,
+                      "properties" : {
+                        "domain" : {
+                          "type" : "string" ,
+                          "required" : false
+                        } ,
+                        "reason" : {
+                          "type" : "string" ,
+                          "required" : false
+                        } ,
+                        "message" : {
+                          "type" : "string" ,
+                          "required" : false
+                        }
+                      }
+                    }
+                  ]
+                } ,
+                "code" : {
+                  "type" : "number" ,
+                  "required" : false
+                } ,
+                "message" : {
+                  "type" : "string" ,
+                  "required" : false
+                }
+              }
+            }
+          }
+        }
+  - messages: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "messages" : {
+              "type" : "array" ,
+              "required" : false ,
+              "items" : [
+                {
+                  "type" : "object" ,
+                  "properties" : {
+                    "id" : {
+                      "type" : "string" ,
+                      "required" : false
+                    } ,
+                    "threadId" : {
+                      "type" : "string" ,
+                      "required" : false
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+  - messageCreate: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "threadId" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "raw" : {
+              "type" : "string" ,
+              "required" : false
+            }
+          }
+        }
+  - messageCreated: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "id" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "threadId" : {
+              "type" : "string" ,
+              "required" : false
+            }    
+          }
+        }
+  - messageImported: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "id" : {
+              "type" : "string" ,
+              "required" : false
+            } 
+          }
+        }
+  - modifyLabels: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "addLabelIds" : {
+              "type" : "array" ,
+              "required" : false ,
+              "items" : [
+                {
+                  "type" : "string"
+                }
+              ]
+            } ,
+            "removeLabelIds" : {
+              "type" : "array" ,
+              "required" : false ,
+              "items" : [
+                {
+                  "type" : "string"
+                }
+              ]
+            }
+          }
+        }
+  - attachment: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "data" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "size" : {
+              "type" : "number" ,
+              "required" : false
+            }
+          }
+        }
+  - drafts: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "drafts" : {
+              "type" : "array" ,
+              "required" : false ,
+              "items" : [
+                {
+                  "type" : "object" ,
+                  "properties" : {
+                    "id" : {
+                      "type" : "string" ,
+                      "required" : false
+                    } ,
+                    "message" : {
+                      "type" : "object" ,
+                      "required" : false ,
+                      "properties" : {
+                        "id" : {
+                          "type" : "string" ,
+                          "required" : false
+                        } ,
+                        "threadId" : {
+                          "type" : "string" ,
+                          "required" : false
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+  - draftCreate: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "raw" : {
+              "type" : "string" ,
+              "required" : false
+            }
+          }
+        }
+  - draft: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "id" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "message" : {
+              "type" : "object" ,
+              "required" : false ,
+              "properties" : {
+                "id" : {
+                  "type" : "string" ,
+                  "required" : false
+                } ,
+                "threadId" : {
+                  "type" : "string" ,
+                  "required" : false
+                } ,
+                "labelIds" : {
+                  "type" : "array" ,
+                  "required" : false ,
+                  "items" : [
+                    {
+                      "type" : "string"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+  - draftFull: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "id" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "message" : {
+              "type" : "object" ,
+              "required" : false ,
+              "properties" : {
+                "id" : {
+                  "type" : "string" ,
+                  "required" : false
+                } ,
+                "threadId" : {
+                  "type" : "string" ,
+                  "required" : false
+                } ,
+                "labelIds" : {
+                  "type" : "array" ,
+                  "required" : false ,
+                  "items" : [
+                    {
+                      "type" : "string"
+                    }
+                  ]
+                } ,
+                "snippet" : {
+                  "type" : "string" ,
+                  "required" : false
+                } ,
+                "historyId" : {
+                  "type" : "string" ,
+                  "required" : false
+                } ,
+                "payload" : {
+                  "type" : "object" ,
+                  "required" : false ,
+                  "properties" : {
+                    "mimeType" : {
+                      "type" : "string" ,
+                      "required" : false
+                    } ,
+                    "filename" : {
+                      "type" : "string" ,
+                      "required" : false
+                    } ,
+                    "headers" : {
+                      "type" : "array" ,
+                      "required" : false ,
+                      "items" : [
+                        {
+                          "type" : "object" ,
+                          "properties" : {
+                            "name" : {
+                              "type" : "string" ,
+                              "required" : false
+                            } ,
+                            "value" : {
+                              "type" : "string" ,
+                              "required" : false
+                            }
+                          }
+                        }
+                      ]
+                    } ,
+                    "body" : {
+                      "type" : "object" ,
+                      "required" : false ,
+                      "properties" : {
+                        "size" : {
+                          "type" : "number" ,
+                          "required" : false
+                        }
+                      }
+                    } ,
+                    "parts" : {
+                      "type" : "array" ,
+                      "required" : false ,
+                      "items" : [
+                        {
+                          "type" : "object" ,
+                          "properties" : {
+                            "mimeType" : {
+                              "type" : "string" ,
+                              "required" : false
+                            } ,
+                            "filename" : {
+                              "type" : "string" ,
+                              "required" : false
+                            } ,
+                            "headers" : {
+                              "type" : "array" ,
+                              "required" : false ,
+                              "items" : [
+                                {
+                                  "type" : "object" ,
+                                  "properties" : {
+                                    "name" : {
+                                      "type" : "string" ,
+                                      "required" : false
+                                    } ,
+                                    "value" : {
+                                      "type" : "string" ,
+                                      "required" : false
+                                    }
+                                  }
+                                }
+                              ]
+                            } ,
+                            "body" : {
+                              "type" : "object" ,
+                              "required" : false ,
+                              "properties" : {
+                                "size" : {
+                                  "type" : "number" ,
+                                  "required" : false
+                                }
+                              }
+                            } ,
+                            "parts" : {
+                              "type" : "array" ,
+                              "required" : false ,
+                              "items" : [
+                                {
+                                  "type" : "object" ,
+                                  "properties" : {
+                                    "partId" : {
+                                      "type" : "string" ,
+                                      "required" : false
+                                    } ,
+                                    "mimeType" : {
+                                      "type" : "string" ,
+                                      "required" : false
+                                    } ,
+                                    "filename" : {
+                                      "type" : "string" ,
+                                      "required" : false
+                                    } ,
+                                    "headers" : {
+                                      "type" : "array" ,
+                                      "required" : false ,
+                                      "items" : [
+                                        {
+                                          "type" : "object" ,
+                                          "properties" : {
+                                            "name" : {
+                                              "type" : "string" ,
+                                              "required" : false
+                                            } ,
+                                            "value" : {
+                                              "type" : "string" ,
+                                              "required" : false
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    } ,
+                                    "body" : {
+                                      "type" : "object" ,
+                                      "required" : false ,
+                                      "properties" : {
+                                        "size" : {
+                                          "type" : "number" ,
+                                          "required" : false
+                                        } ,
+                                        "data" : {
+                                          "type" : "string" ,
+                                          "required" : false
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        } , {
+                          "type" : "object" ,
+                          "properties" : {
+                            "partId" : {
+                              "type" : "string" ,
+                              "required" : false
+                            } ,
+                            "mimeType" : {
+                              "type" : "string" ,
+                              "required" : false
+                            } ,
+                            "filename" : {
+                              "type" : "string" ,
+                              "required" : false
+                            } ,
+                            "headers" : {
+                              "type" : "array" ,
+                              "required" : false ,
+                              "items" : [
+                                {
+                                  "type" : "object" ,
+                                  "properties" : {
+                                    "name" : {
+                                      "type" : "string" ,
+                                      "required" : false
+                                    } ,
+                                    "value" : {
+                                      "type" : "string" ,
+                                      "required" : false
+                                    }
+                                  }
+                                }
+                              ]
+                            } ,
+                            "body" : {
+                              "type" : "object" ,
+                              "required" : false ,
+                              "properties" : {
+                                "attachmentId" : {
+                                  "type" : "string" ,
+                                  "required" : false
+                                } ,
+                                "size" : {
+                                  "type" : "number" ,
+                                  "required" : false
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                } ,
+                "sizeEstimate" : {
+                  "type" : "number" ,
+                  "required" : false
+                }
+              }
+            }
+          }
+        }
+  - history: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "history" : {
+              "type" : "array" ,
+              "required" : false ,
+              "items" : [
+                {
+                  "type" : "object" ,
+                  "properties" : {
+                    "id" : {
+                      "type" : "string" ,
+                      "required" : false
+                    } ,
+                    "messages" : {
+                      "type" : "array" ,
+                      "required" : false ,
+                      "items" : [
+                        {
+                          "type" : "object" ,
+                          "properties" : {
+                            "id" : {
+                              "type" : "string" ,
+                              "required" : false
+                            } ,
+                            "threadId" : {
+                              "type" : "string" ,
+                              "required" : false
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+  - labels: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "labels" : {
+              "type" : "array" ,
+              "required" : false ,
+              "items" : [
+                {
+                  "type" : "object" ,
+                  "properties" : {
+                    "id" : {
+                      "type" : "string" ,
+                      "required" : false
+                    } ,
+                    "name" : {
+                      "type" : "string" ,
+                      "required" : false
+                    } ,
+                    "messageListVisibility" : {
+                      "type" : "string" ,
+                      "required" : false
+                    } ,
+                    "labelListVisibility" : {
+                      "type" : "string" ,
+                      "required" : false
+                    } ,
+                    "type" : {
+                      "type" : "string" ,
+                      "required" : false
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+  - labelCreate: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "labelListVisibility" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "messageListVisibility" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "name" : {
+              "type" : "string" ,
+              "required" : false
+            }
+          }
+        }
+  - label: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "id" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "labelListVisibility" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "messageListVisibility" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "name" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "type" : {
+              "type" : "string" ,
+              "required" : false
+            }
+          }
+        }
+  - threads: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "threads" : {
+              "type" : "array" ,
+              "required" : false ,
+              "items" : [
+                {
+                  "type" : "object" ,
+                  "properties" : {
+                    "id" : {
+                      "type" : "string" ,
+                      "required" : false
+                    } ,
+                    "snippet" : {
+                      "type" : "string" ,
+                      "required" : false
+                    } ,
+                    "historyId" : {
+                      "type" : "string" ,
+                      "required" : false
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+  - thread: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "id" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "historyId" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "messages" : {
+              "type" : "array" ,
+              "required" : false ,
+              "items" : [
+                {
+                  "type" : "object" ,
+                  "properties" : {
+                    "id" : {
+                      "type" : "string" ,
+                      "required" : false
+                    } ,
+                    "threadId" : {
+                      "type" : "string" ,
+                      "required" : false
+                    } ,
+                    "labelIds" : {
+                      "type" : "array" ,
+                      "required" : false ,
+                      "items" : [
+                        {
+                          "type" : "string"
+                        }
+                      ]
+                    } ,
+                    "snippet" : {
+                      "type" : "string" ,
+                      "required" : false
+                    } ,
+                    "historyId" : {
+                      "type" : "string" ,
+                      "required" : false
+                    } ,
+                    "payload" : {
+                      "type" : "object" ,
+                      "required" : false ,
+                      "properties" : {
+                        "mimeType" : {
+                          "type" : "string" ,
+                          "required" : false
+                        } ,
+                        "filename" : {
+                          "type" : "string" ,
+                          "required" : false
+                        } ,
+                        "headers" : {
+                          "type" : "array" ,
+                          "required" : false ,
+                          "items" : [
+                            {
+                              "type" : "object" ,
+                              "properties" : {
+                                "name" : {
+                                  "type" : "string" ,
+                                  "required" : false
+                                } ,
+                                "value" : {
+                                  "type" : "string" ,
+                                  "required" : false
+                                }
+                              }
+                            }
+                          ]
+                        } ,
+                        "body" : {
+                          "type" : "object" ,
+                          "required" : false ,
+                          "properties" : {
+                            "size" : {
+                              "type" : "number" ,
+                              "required" : false
+                            } ,
+                            "data" : {
+                              "type" : "string" ,
+                              "required" : false
+                            }
+                          }
+                        }
+                      }
+                    } ,
+                    "sizeEstimate" : {
+                      "type" : "number" ,
+                      "required" : false
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+  - profileResponse: |
+        {
+          "required" : true ,
+          "$schema" : "http://json-schema.org/draft-03/schema" ,
+          "type" : "object" ,
+          "properties" : {
+            "emailAddress" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "messagesTotal" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "threadsTotal" : {
+              "type" : "string" ,
+              "required" : false
+            } ,
+            "historyId" : {
+              "type" : "string" ,
+              "required" : false
+            }
+          }
+        }
+resourceTypes:
+  - base: 
+      get?: 
+      post?: 
+        body: 
+          application/json: 
+        responses: 
+          200: 
+            body: 
+              application/json: 
+      put?: 
+        body: 
+          application/json: 
+        responses: 
+          200: 
+            body: 
+              application/json: 
+      delete?: 
+        responses: 
+          204: 
+      patch?: 
+        body: 
+          application/json: 
+        responses: 
+          200: 
+            body: 
+              application/json: 
+      is: [ commonParams ]
+traits:
+  - formatted: 
+      queryParameters: 
+        format: 
+          description: |
+            The format to return the message in. 
+            
+            Acceptable values are
+            full - Returns the parsed email message content in the payload field and the raw field is not used. (default)
+            
+            minimal - Only returns email message metadata such as identifiers and labels, it does not return the email headers, body, or payload.
+            
+            raw - Returns the entire email message content in the raw field as a string and the payload field is not used. This includes the identifiers, labels, metadata, MIME structure, and small body parts (typically less than 2KB).
+          enum: 
+            - raw
+            - full
+            - minimal
+  - query: 
+      queryParameters: 
+        includeSpamTrash: 
+          description: |
+            Include <<type|!pluralize>> from SPAM and TRASH in the results.
+          type: boolean
+          default: false
+        labelIds: 
+          description: |
+            Only return objects with labels that match all of the specified label IDs.
+        q: 
+          description: |
+            Only return objects matching the specified query. Supports the same query format as the Gmail search box. For example, "from:someuser@example.com rfc822msgid: is:unread".
+  - paginated: 
+      queryParameters: 
+        maxResults: 
+          description: Maximum number of <<type|!pluralize>> to return.
+          type: integer
+        pageToken: 
+          description: Page token to retrieve a specific page of results in the list.
+  - uploadMetadata: 
+      queryParameters: 
+        uploadType: 
+          description: |
+            The type of upload request to the /upload URI. Acceptable values are
+            
+            multipart - Multipart upload. Upload both the media and its metadata, in a single request.
+            
+            resumable - Resumable upload. Upload the file in a resumable fashion, using a series of at least two requests where the first request includes the metadata.
+          required: true
+          enum: [ resumable , multipart ]
+  - commonParams: 
+      queryParameters: 
+        callback: 
+          description: |
+            Callback function. Name of the JavaScript callback function that handles the response. Used in JavaScript JSON-P requests.
+        fields: 
+          description: |
+            Selector specifying a subset of fields to include in the response. For more information, see the partial response section in the Performance Tips document. Use for better performance.
+        prettyPrint: 
+          description: |
+            Returns response with indentations and line breaks. Returns the response in a human-readable format if 'true'. When this is 'false', it can reduce the response payload size, which might lead to better performance in some environments.    
+          type: boolean
+          default: true
+        quotaUser: 
+          description: |
+            Alternative to 'userIp'. Lets you enforce per-user quotas from a server-side application even in cases when the user's IP address is unknown. This can occur, for example, with applications that run cron jobs on App Engine on a user's behalf. You can choose any arbitrary string that uniquely identifies a user, but it is limited to 40 characters. Overrides 'userIp' if both are provided.
+            Learn more about capping usage.
+        userIp: 
+          description: |
+            IP address of the end user for whom the API call is being made. Lets you enforce per-user quotas when calling the API from a server-side application. Learn more about capping usage.
+      responses: 
+        401: 
+          body: 
+            application/json: 
+              schema: invalidCredentials
+              example: |
+                {
+                  "error" : {
+                    "errors" : [
+                      {
+                        "domain" : "global" ,
+                        "reason" : "authError" ,
+                        "message" : "Invalid Credentials" ,
+                        "locationType" : "header" ,
+                        "location" : "Authorization"
+                      }
+                    ] ,
+                    "code" : 401 ,
+                    "message" : "Invalid Credentials"
+                  }
+                }
+        404: 
+          body: 
+            application/json: 
+              schema: notFound
+              example: |
+                {
+                  "error" : {
+                    "errors" : [
+                      {
+                        "domain" : "global" ,
+                        "reason" : "notFound" ,
+                        "message" : "Not Found"
+                      }
+                    ] ,
+                    "code" : 404 ,
+                    "message" : "Not Found"
+                  }
+                }
+securedBy: [ oauth_2_0 ]
+/{userId}: 
+  /messages: 
+    get: 
+      is: [ paginated: { type: message } , query: { type: message } ]
+      description: "Lists the messages in the user's mailbox."
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: messages
+              example: |
+                {
+                  "messages" : [
+                    {
+                      "id" : "146def0da4f688a4" ,
+                      "threadId" : "146def0d7af53a25"
+                    } , {
+                      "id" : "146dee0e3ea27ea7" ,
+                      "threadId" : "146dee0e3ea27ea7"
+                    } , {
+                      "id" : "146ded6659787f6a" ,
+                      "threadId" : "146ded6659787f6a"
+                    }
+                  ]
+                }
+    post: 
+      is: [ uploadMetadata ]
+      description: "Metadata-only request. Directly inserts a message into only this user's mailbox. Does not send a message."
+      body: 
+        application/json: 
+          schema: messageCreate
+          example: |
+            {
+              "threadId" : "146df2af95fffcf2" ,
+              "raw" : "ZXJzaW___NOT_A_VALID_VALUE___zMiB3a"
+            }
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: messageCreated
+              example: |
+                {
+                  "id" : "146df2af95fffcf2",
+                  "threadId": "146deace8d5e7db4"
+                }
+    /send: 
+      type: base
+      post: 
+        is: [ uploadMetadata ]
+        description: "Metadata-only request. Sends the specified message to the recipients in the 'To', 'Cc', and 'Bcc' headers."
+        body: 
+          application/json: 
+            schema: messageCreate
+            example: |
+              {
+                "threadId" : "146df2af95fffcf2" ,
+                "raw" : "ZXJzaW___NOT_A_VALID_VALUE___zMiB3a"
+              }
+        responses: 
+          200: 
+            body: 
+              application/json: 
+                schema: message
+                example: |
+                  {
+                    "id" : "146df2af95fffcf2" ,
+                    "threadId" : "146df2af95fffcf2" ,
+                    "labelIds" : [
+                      "SENT"
+                    ]
+                  }
+    /import: 
+      type: base
+      post: 
+        is: [ uploadMetadata ]
+        description: "Metadata-only request. Directly imports a message into only this user's mailbox, similar to receiving via SMTP. Does not send a message."
+        body: 
+          application/json: 
+            schema: messageCreate
+            example: |
+              {
+                "threadId" : "146df2af95fffcf2" ,
+                "raw" : "ZXJzaW___NOT_A_VALID_VALUE___zMiB3a"
+              }
+        responses: 
+          200: 
+            body: 
+              application/json: 
+                schema: messageImported
+                example: |
+                  {
+                    "id" : "146df2af95fffcf2"
+                  }
+    /{messageId}: 
+      get: 
+        is: [ formatted ]
+        description: Gets the specified message.
+        responses: 
+          200: 
+            body: 
+              application/json: 
+                schema: messageFull
+                example: |
+                  {
+                    "id" : "146df2af95fffcf2" ,
+                    "threadId" : "146df2af95fffcf2" ,
+                    "labelIds" : [
+                      "SENT"
+                    ] ,
+                    "snippet" : "This message is intended for tests with GMail API Notebooks." ,
+                    "historyId" : "535336" ,
+                    "payload" : {
+                      "mimeType" : "multipart/mixed" ,
+                      "filename" : "" ,
+                      "headers" : [
+                        {
+                          "name" : "Received" ,
+                          "value" : "from -0700"
+                        } , {
+                          "name" : "MIMEVersion" ,
+                          "value" : "10"
+                        } , {
+                          "name" : "Received" ,
+                          "value" : "asdad"
+                        } , {
+                          "name" : "Date" ,
+                          "value" : "Fri 27 Jun 2014 14:11:13 -0700"
+                        } , {
+                          "name" : "Delivered-To" ,
+                          "value" : "some.other.account@gmail.com"
+                        } , {
+                          "name" : "Message-Id" ,
+                          "value" : "003 ___NOT A VALID VALUE__ aTOdfg@mail.gmail.com>"
+                        } , {
+                          "name" : "Subject" ,
+                          "value" : "GMail NotebooksTest Message"
+                        } , {
+                          "name" : "From" ,
+                          "value" : "some.account@gmail.com"
+                        } , {
+                          "name" : "To" ,
+                          "value" : "Jack Jackson <some.other.account@gmail.com>"
+                        } , {
+                          "name" : "Content-Type" ,
+                          "value" : "multipart/mixed; boundary=001a11c359f06e359f04fcd5d347"
+                        }
+                      ] ,
+                      "body" : {
+                        "size" : 0
+                      } ,
+                      "parts" : [
+                        {
+                          "mimeType" : "multipart/alternative" ,
+                          "filename" : "" ,
+                          "headers" : [
+                            {
+                              "name" : "Content-Type" ,
+                              "value" : "multipart/alternative; boundary=001a11c359f06e358b04fcd5d345"
+                            }
+                          ] ,
+                          "body" : {
+                            "size" : 0
+                          } ,
+                          "parts" : [
+                           
+                          ]
+                        } , {
+                          "partId" : "1" ,
+                          "mimeType" : "text/plain" ,
+                          "filename" : "attachment.txt" ,
+                          "headers" : [
+                            {
+                              "name" : "Content-Type" ,
+                              "value" : "text/plain; charset=US-ASCII; name=attachment.txt"
+                            } , {
+                              "name" : "Content-Disposition" ,
+                              "value" : "attachment; filename=attachment.txt"
+                            } , {
+                              "name" : "Content-Transfer-Encoding" ,
+                              "value" : "base64"
+                            } , {
+                              "name" : "X-Attachment-Id" ,
+                              "value" : "f_hwxuybym0"
+                            }
+                          ] ,
+                          "body" : {
+                            "attachmentId" : "ANGj ___NOT A VALID VALUE__ 2pfAA" ,
+                            "size" : 82
+                          }
+                        }
+                      ]
+                    } ,
+                    "sizeEstimate" : 1502
+                  }
+      delete: 
+        description: "Immediately and permanently deletes the specified message. This operation cannot be undone. Prefer 'messages.trash' instead."
+      /modify: 
+        type: base
+        post: 
+          description: Modifies the labels on the specified message.
+          body: 
+            application/json: 
+              schema: modifyLabels
+              example: |
+                {
+                  "addLabelIds" : [
+                    "TRASH"
+                  ] ,
+                  "removeLabelIds" : [
+                    "DRAFT"
+                  ]
+                }
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: message
+                  example: |
+                    {
+                      "id" : "146df2af95fffcf2" ,
+                      "threadId" : "146df2af95fffcf2" ,
+                      "labelIds" : [
+                        "SENT"
+                      ]
+                    }
+      /untrash: 
+        type: base
+        post: 
+          description: Removes the specified message from the trash.
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  example: |
+                    {
+                      "id" : "146df2af95fffcf2" ,
+                      "threadId" : "146df2af95fffcf2" ,
+                      "labelIds" : [
+                        "SENT"
+                      ]
+                    }
+      /trash: 
+        type: base
+        post: 
+          description: Moves the specified message to the trash.
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  example: |
+                    {
+                      "id" : "146df2af95fffcf2" ,
+                      "threadId" : "146df2af95fffcf2" ,
+                      "labelIds" : [
+                        "SENT"
+                      ]
+                    }
+      /attachments/{id}: 
+        type: base
+        get: 
+          description: Gets the specified message attachment.
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: attachment
+                  example: |
+                    {
+                      "data" : "VGhpcy ... va3Mu" ,
+                      "size" : 60
+                    }
+  /drafts: 
+    type: base
+    get: 
+      is: [ paginated: { type: draft } ]
+      description: "Lists the drafts in the user's mailbox."
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: drafts
+              example: |
+                {
+                  "drafts" : [
+                    {
+                      "id" : "1471070327411915522" ,
+                      "message" : {
+                        "id" : "146a4ace3ba42c9a" ,
+                        "threadId" : "14695b233e3e88cf"
+                      }
+                    } , {
+                      "id" : "1461300452114324943" ,
+                      "message" : {
+                        "id" : "14479504d6645dcf" ,
+                        "threadId" : "14478e16712ba99e"
+                      }
+                    } , {
+                      "id" : "1455873611044303806" ,
+                      "message" : {
+                        "id" : "14344d5701595137" ,
+                        "threadId" : "143393d3242fdf55"
+                      }
+                    }
+                  ]
+                }
+    post: 
+      is: [ uploadMetadata ]
+      description: Metadata-only request. Creates a new draft with the DRAFT label.
+      body: 
+        application/json: 
+          schema: draftCreate
+          example: |
+            {
+              "raw" : "ZXJzaW___NOT_A_VALID_VALUE___zMiB3a"
+            }
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: draft
+              example: |
+                {
+                  "id" : "r3089453976128281045" ,
+                  "message" : {
+                    "id" : "146df5663490d72f" ,
+                    "threadId" : "146df5663490d72f" ,
+                    "labelIds" : [
+                      "DRAFT"
+                    ]
+                  }
+                }
+    /{id}: 
+      type: base
+      get: 
+        is: [ formatted ]
+        description: Gets the specified draft.
+        responses: 
+          200: 
+            body: 
+              application/json: 
+                schema: draftFull
+                example: |
+                  {
+                    "id" : "r3089453976128281045" ,
+                    "message" : {
+                      "id" : "146df5663490d72f" ,
+                      "threadId" : "146df5663490d72f" ,
+                      "labelIds" : [
+                        "DRAFT"
+                      ] ,
+                      "snippet" : "This message is intended for tests with GMail API Notebooks." ,
+                      "historyId" : "535352" ,
+                      "payload" : {
+                        "mimeType" : "multipart/mixed" ,
+                        "filename" : "" ,
+                        "headers" : [
+                          {
+                            "name" : "Received" ,
+                            "value" : "from 833522106252-kj93b6c68h8dq0438mjuasrvm6bsfjvm.apps.googleusercontent.com named unknown by gmailapi.google.com with HTTPREST; Fri, 27 Jun 2014 14:58:39 -0700"
+                          } , {
+                            "name" : "MIME-Version" ,
+                            "value" : "1.0"
+                          } , {
+                            "name" : "Received" ,
+                            "value" : "by 10.64.9.232 with HTTP; Fri, 27 Jun 2014 11:53:32 -0700 (PDT)"
+                          } , {
+                            "name" : "Date" ,
+                            "value" : "Fri, 27 Jun 2014 14:58:39 -0700"
+                          } , {
+                            "name" : "Delivered-To" ,
+                            "value" : "some.other.account@gmail.com"
+                          } , {
+                            "name" : "Message-Id" ,
+                            "value" : "<CAEzS4YByT-cDzjGeizmy=zVkgpKnemvvUayfN4EO16tUW9D9Vg@mail.gmail.com>"
+                          } , {
+                            "name" : "Subject" ,
+                            "value" : "GMail NotebooksTest Message"
+                          } , {
+                            "name" : "From" ,
+                            "value" : "some.account@gmail.com"
+                          } , {
+                            "name" : "To" ,
+                            "value" : "Jack Jackson <some.other.account@gmail.com>"
+                          } , {
+                            "name" : "Content-Type" ,
+                            "value" : "multipart/mixed; boundary=001a11c359f06e359f04fcd5d347"
+                          }
+                        ] ,
+                        "body" : {
+                          "size" : 0
+                        } ,
+                        "parts" : [
+                          {
+                            "mimeType" : "multipart/alternative" ,
+                            "filename" : "" ,
+                            "headers" : [
+                              {
+                                "name" : "Content-Type" ,
+                                "value" : "multipart/alternative; boundary=001a11c359f06e358b04fcd5d345"
+                              }
+                            ] ,
+                            "body" : {
+                              "size" : 0
+                            } ,
+                            "parts" : [
+                              {
+                                "partId" : "0.0" ,
+                                "mimeType" : "text/plain" ,
+                                "filename" : "" ,
+                                "headers" : [
+                                  {
+                                    "name" : "Content-Type" ,
+                                    "value" : "text/plain; charset=UTF-8"
+                                  }
+                                ] ,
+                                "body" : {
+                                  "size" : 62 ,
+                                  "data" : "VGhpcyBtZXNzYWdlIGlzIGludGVuZGVkIGZvciB0ZXN0cyB3aXRoIEdNYWlsIEFQSSBOb3RlYm9va3MuDQo="
+                                }
+                              } , {
+                                "partId" : "0.1" ,
+                                "mimeType" : "text/html" ,
+                                "filename" : "" ,
+                                "headers" : [
+                                  {
+                                    "name" : "Content-Type" ,
+                                    "value" : "text/html; charset=UTF-8"
+                                  }
+                                ] ,
+                                "body" : {
+                                  "size" : 152 ,
+                                  "data" : "PGRpdiBkaXI9Imx0ciI-PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OmFyaWFsLHNhbnMtc2VyaWY7Zm9udC1zaXplOjEzcHgiPlRoaXMgbWVzc2FnZSBpcyBpbnRlbmRlZCBmb3IgdGVzdHMgd2l0aCBHTWFpbCBBUEkgTm90ZWJvb2tzLjwvc3Bhbj48YnI-PC9kaXY-DQo="
+                                }
+                              }
+                            ]
+                          } , {
+                            "partId" : "1" ,
+                            "mimeType" : "text/plain" ,
+                            "filename" : "attachment.txt" ,
+                            "headers" : [
+                              {
+                                "name" : "Content-Type" ,
+                                "value" : "text/plain; charset=US-ASCII; name=attachment.txt"
+                              } , {
+                                "name" : "Content-Disposition" ,
+                                "value" : "attachment; filename=attachment.txt"
+                              } , {
+                                "name" : "Content-Transfer-Encoding" ,
+                                "value" : "base64"
+                              } , {
+                                "name" : "X-Attachment-Id" ,
+                                "value" : "f_hwxuybym0"
+                              }
+                            ] ,
+                            "body" : {
+                              "attachmentId" : "ANGjdJ-foNW8gRk2isBDOUCrQYihN4d5bI4Ow2XmIc6CbfLMtnolkw654O7JVwdbXrQZ8YHNYlIUfQVsH8ywpGJpaefpFO6imZKemAoDXZjP8NhrUI6aZ9AT89apJYumcxeyK5gGXc0rRnCTo2o8863w2Y0UTww-Vu4O8Ct0OHx5pYsTUF56q3KVaP2zsHI3_4JOr1N7tWFam7gD8sEDDPl17xqKVGJ_4HIJGGq0wAKeS9w4_l_Ssot73zc-_fMaZyCsoWwdguag8m5eFGKEinaEpqrL5vS8K90-H7iEaw" ,
+                              "size" : 82
+                            }
+                          }
+                        ]
+                      } ,
+                      "sizeEstimate" : 1502
+                    }
+                  }
+      delete: 
+        description: Immediately and permanently deletes the specified draft. Does not simply trash it.
+      put: 
+        is: [ uploadMetadata ]
+        description: "Metadata-only request. Replaces a draft's content."
+        body: 
+          application/json: 
+            schema: draftCreate
+            example: |
+              {
+                "raw" : "ZXJzaW___NOT_A_VALID_VALUE___zMiB3a"
+              }
+        responses: 
+          200: 
+            body: 
+              application/json: 
+                schema: draft
+                example: |
+                  {
+                    "id" : "r3089453976128281045" ,
+                    "message" : {
+                      "id" : "146df5663490d72f" ,
+                      "threadId" : "146df5663490d72f" ,
+                      "labelIds" : [
+                        "DRAFT"
+                      ]
+                    }
+                  }
+    /send: 
+      type: base
+      post: 
+        is: [ uploadMetadata ]
+        description: "Metadata-only request. Sends the specified, existing draft to the recipients in the 'To', 'Cc', and 'Bcc' headers."
+        responses: 
+          200: 
+            body: 
+              application/json: 
+                schema: draft
+                example: |
+                  {
+                    "id" : "r3089453976128281045" ,
+                    "message" : {
+                      "id" : "146df5663490d72f" ,
+                      "threadId" : "146df5663490d72f" ,
+                      "labelIds" : [
+                        "DRAFT"
+                      ]
+                    }
+                  }
+  /history: 
+    type: base
+    get: 
+      is: [ paginated: { type: history record } ]
+      description: "Lists the history of all changes to the given mailbox. History results are returned in chronological order (increasing 'historyId')."
+      queryParameters: 
+        labelId: 
+          description: Only return messages with a label matching the ID.
+        startHistoryId: 
+          description: "Returns history records after the specified startHistoryId. The supplied 'startHistoryId' should be obtained from the 'historyId' of a message, thread, or previous 'list' response. History IDs increase chronologically but are not contiguous with random gaps in between valid IDs. Supplying an invalid or out of date 'startHistoryId' typically returns an HTTP 404 error code. A 'historyId' is typically valid for at least a week, but in some circumstances may be valid for only a few hours. If you receive an HTTP 404 error response, your application should perform a full sync. If you receive no 'nextPageToken' in the response, there are no updates to retrieve and you can store the returned 'historyId' for a future request."
+          required: true
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: history
+              example: |
+                {
+                  "history" : [
+                    {
+                      "id" : "531980" ,
+                      "messages" : [
+                        {
+                          "id" : "146cdf52784d1e1d" ,
+                          "threadId" : "146cdf1a14adfb6b"
+                        }
+                      ]
+                    } , {
+                      "id" : "532004" ,
+                      "messages" : [
+                        {
+                          "id" : "146cdf6dd2ffc4f4" ,
+                          "threadId" : "146cdf1a14adfb6b"
+                        }
+                      ]
+                    } , {
+                      "id" : "532026" ,
+                      "messages" : [
+                        {
+                          "id" : "146cdf6e37b3df80" ,
+                          "threadId" : "146cdf1a14adfb6b"
+                        }
+                      ]
+                    }
+                  ]
+                }
+  /labels: 
+    type: base
+    get: 
+      description: "Lists all labels in the user's mailbox."
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: labels
+              example: |
+                {
+                  "labels" : [
+                    {
+                      "id" : "DRAFT" ,
+                      "name" : "DRAFT" ,
+                      "messageListVisibility" : "hide" ,
+                      "labelListVisibility" : "labelShow" ,
+                      "type" : "system"
+                    } , {
+                      "id" : "CATEGORY_UPDATES" ,
+                      "name" : "CATEGORY_UPDATES" ,
+                      "type" : "system"
+                    } , {
+                      "id" : "UNREAD" ,
+                      "name" : "UNREAD" ,
+                      "type" : "system"
+                    }
+                  ]
+                }
+    post: 
+      description: Creates a new label.
+      body: 
+        application/json: 
+          schema: labelCreate
+          example: |
+            {
+              "labelListVisibility" : "labelShow" ,
+              "messageListVisibility" : "show" ,
+              "name" : "API_Notebook"
+            }
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: label
+              example: |
+                {
+                  "id" : "Label_4" ,
+                  "labelListVisibility" : "labelShow" ,
+                  "messageListVisibility" : "show" ,
+                  "name" : "API_Notebook" ,
+                  "type" : "user"
+                }
+    /{id}: 
+      type: base
+      get: 
+        description: Gets the specified label.
+        responses: 
+          200: 
+            body: 
+              application/json: 
+                schema: label
+                example: |
+                  {
+                    "id" : "Label_4" ,
+                    "labelListVisibility" : "labelShow" ,
+                    "messageListVisibility" : "show" ,
+                    "name" : "API_Notebook" ,
+                    "type" : "user"
+                  }
+      delete: 
+        description: Immediately and permanently deletes the specified label and removes it from any messages and threads that it is applied to.
+      patch: 
+        description: Updates the specified label. This method supports patch semantics.
+        body: 
+          application/json: 
+            schema: labelCreate
+            example: |
+              {
+                "labelListVisibility" : "labelShow" ,
+                "messageListVisibility" : "show" ,
+                "name" : "API_Notebook"
+              }
+        responses: 
+          200: 
+            body: 
+              application/json: 
+                example: |
+                  {
+                    "id" : "Label_4" ,
+                    "labelListVisibility" : "labelShow" ,
+                    "messageListVisibility" : "show" ,
+                    "name" : "API_Notebook" ,
+                    "type" : "user"
+                  }
+      put: 
+        description: Updates the specified label.
+        body: 
+          application/json: 
+            example: |
+              {
+                "labelListVisibility" : "labelShow" ,
+                "messageListVisibility" : "show" ,
+                "name" : "API_Notebook"
+              }
+        responses: 
+          200: 
+            body: 
+              application/json: 
+                example: |
+                  {
+                    "id" : "Label_4" ,
+                    "labelListVisibility" : "labelShow" ,
+                    "messageListVisibility" : "show" ,
+                    "name" : "API_Notebook" ,
+                    "type" : "user"
+                  }
+  /threads: 
+    get: 
+      is: [ paginated: { type: thread } , query: { type: thread } ]
+      description: "Lists the threads in the user's mailbox."
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: threads
+              example: |
+                {
+                  "threads" : [
+                    {
+                      "id" : "146df5d64e5cb7dc" ,
+                      "snippet" : "" ,
+                      "historyId" : "535370"
+                    } , {
+                      "id" : "146df5663490d72f" ,
+                      "snippet" : "" ,
+                      "historyId" : "535352"
+                    } , {
+                      "id" : "146def0d7af53a25" ,
+                      "snippet" : "" ,
+                      "historyId" : "535198"
+                    }
+                  ]
+                }
+    /{id}: 
+      get: 
+        description: Gets the specified thread.
+        responses: 
+          200: 
+            body: 
+              application/json: 
+                schema: thread
+                example: |
+                  {
+                    "id" : "146df5d64e5cb7dc" ,
+                    "historyId" : "535370" ,
+                    "messages" : [
+                      {
+                        "id" : "146df5d64e5cb7dc" ,
+                        "threadId" : "146df5d64e5cb7dc" ,
+                        "labelIds" : [
+                          "SENT"
+                        ] ,
+                        "snippet" : "" ,
+                        "historyId" : "535370" ,
+                        "payload" : {
+                          "mimeType" : "text/plain" ,
+                          "filename" : "" ,
+                          "headers" : [
+                            {
+                              "name" : "Received" ,
+                              "value" : "from 833522106252-kj93b6c68h8dq0438mjuasrvm6bsfjvm.apps.googleusercontent.com named unknown by gmailapi.google.com with HTTPREST; Fri, 27 Jun 2014 15:06:18 -0700"
+                            } , {
+                              "name" : "Date" ,
+                              "value" : "Fri, 27 Jun 2014 15:06:18 -0700"
+                            } , {
+                              "name" : "Message-Id" ,
+                              "value" : "<CAEzS4YC_gro+vJ8aoiccD8emmF=KkBjG12mXOh53+wWsR9YQVQ@mail.gmail.com>"
+                            } , {
+                              "name" : "From" ,
+                              "value" : "someaccount@gmail.com"
+                            }
+                          ] ,
+                          "body" : {
+                            "size" : 0 ,
+                            "data" : ""
+                          }
+                        } ,
+                        "sizeEstimate" : 331
+                      }
+                    ]
+                  }
+      delete: 
+        description: "Immediately and permanently deletes the specified thread. This operation cannot be undone. Prefer 'threads.trash' instead."
+      /modify: 
+        type: base
+        post: 
+          description: Modifies the labels applied to the thread. This applies to all messages in the thread.
+          body: 
+            application/json: 
+              schema: modifyLabels
+              example: |
+                {
+                  "addLabelIds" : [
+                    "TRASH"
+                  ] ,
+                  "removeLabelIds" : [
+                    "DRAFT"
+                  ]
+                }
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  schema: thread
+                  example: |
+                    {
+                      "id" : "146df5d64e5cb7dc" ,
+                      "historyId" : "535370" ,
+                      "messages" : [
+                        {
+                          "id" : "146df5d64e5cb7dc" ,
+                          "threadId" : "146df5d64e5cb7dc" ,
+                          "labelIds" : [
+                            "SENT"
+                          ] ,
+                          "snippet" : "" ,
+                          "historyId" : "535370" ,
+                          "payload" : {
+                            "mimeType" : "text/plain" ,
+                            "filename" : "" ,
+                            "headers" : [
+                              {
+                                "name" : "Received" ,
+                                "value" : "from 833522106252-kj93b6c68h8dq0438mjuasrvm6bsfjvm.apps.googleusercontent.com named unknown by gmailapi.google.com with HTTPREST; Fri, 27 Jun 2014 15:06:18 -0700"
+                              } , {
+                                "name" : "Date" ,
+                                "value" : "Fri, 27 Jun 2014 15:06:18 -0700"
+                              } , {
+                                "name" : "Message-Id" ,
+                                "value" : "<CAEzS4YC_gro+vJ8aoiccD8emmF=KkBjG12mXOh53+wWsR9YQVQ@mail.gmail.com>"
+                              } , {
+                                "name" : "From" ,
+                                "value" : "someaccount@gmail.com"
+                              }
+                            ] ,
+                            "body" : {
+                              "size" : 0 ,
+                              "data" : ""
+                            }
+                          } ,
+                          "sizeEstimate" : 331
+                        }
+                      ]
+                    }
+      /trash: 
+        type: base
+        post: 
+          description: Moves the specified thread to the trash.
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  example: |
+                    {
+                      "id" : "146df5d64e5cb7dc" ,
+                      "historyId" : "535370" ,
+                      "messages" : [
+                        {
+                          "id" : "146df5d64e5cb7dc" ,
+                          "threadId" : "146df5d64e5cb7dc" ,
+                          "labelIds" : [
+                            "SENT"
+                          ] ,
+                          "snippet" : "" ,
+                          "historyId" : "535370" ,
+                          "payload" : {
+                            "mimeType" : "text/plain" ,
+                            "filename" : "" ,
+                            "headers" : [
+                              {
+                                "name" : "Received" ,
+                                "value" : "from 833522106252-kj93b6c68h8dq0438mjuasrvm6bsfjvm.apps.googleusercontent.com named unknown by gmailapi.google.com with HTTPREST; Fri, 27 Jun 2014 15:06:18 -0700"
+                              } , {
+                                "name" : "Date" ,
+                                "value" : "Fri, 27 Jun 2014 15:06:18 -0700"
+                              } , {
+                                "name" : "Message-Id" ,
+                                "value" : "<CAEzS4YC_gro+vJ8aoiccD8emmF=KkBjG12mXOh53+wWsR9YQVQ@mail.gmail.com>"
+                              } , {
+                                "name" : "From" ,
+                                "value" : "someaccount@gmail.com"
+                              }
+                            ] ,
+                            "body" : {
+                              "size" : 0 ,
+                              "data" : ""
+                            }
+                          } ,
+                          "sizeEstimate" : 331
+                        }
+                      ]
+                    }
+      /untrash: 
+        type: base
+        post: 
+          description: Removes the specified thread from the trash.
+          responses: 
+            200: 
+              body: 
+                application/json: 
+                  example: |
+                    {
+                      "id" : "146df5d64e5cb7dc" ,
+                      "historyId" : "535370" ,
+                      "messages" : [
+                        {
+                          "id" : "146df5d64e5cb7dc" ,
+                          "threadId" : "146df5d64e5cb7dc" ,
+                          "labelIds" : [
+                            "SENT"
+                          ] ,
+                          "snippet" : "" ,
+                          "historyId" : "535370" ,
+                          "payload" : {
+                            "mimeType" : "text/plain" ,
+                            "filename" : "" ,
+                            "headers" : [
+                              {
+                                "name" : "Received" ,
+                                "value" : "from 833522106252-kj93b6c68h8dq0438mjuasrvm6bsfjvm.apps.googleusercontent.com named unknown by gmailapi.google.com with HTTPREST; Fri, 27 Jun 2014 15:06:18 -0700"
+                              } , {
+                                "name" : "Date" ,
+                                "value" : "Fri, 27 Jun 2014 15:06:18 -0700"
+                              } , {
+                                "name" : "Message-Id" ,
+                                "value" : "<CAEzS4YC_gro+vJ8aoiccD8emmF=KkBjG12mXOh53+wWsR9YQVQ@mail.gmail.com>"
+                              } , {
+                                "name" : "From" ,
+                                "value" : "someaccount@gmail.com"
+                              }
+                            ] ,
+                            "body" : {
+                              "size" : 0 ,
+                              "data" : ""
+                            }
+                          } ,
+                          "sizeEstimate" : 331
+                        }
+                      ]
+                    }
+  /profile: 
+    get: 
+      responses: 
+        200: 
+          body: 
+            application/json: 
+              schema: profileResponse
+              example: |
+                {
+                  "emailAddress" : "string" ,
+                  "messagesTotal" : "integer" ,
+                  "threadsTotal" : "integer" ,
+                  "historyId" : "unsigned long"
+                }

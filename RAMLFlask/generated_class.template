@@ -1,0 +1,72 @@
+    class {{ tmpl.class_name }}(Generated_Class_Base):
+        {{ tmpl.documentation }}
+
+        def __init__(self, request, resp_t={{ tmpl.resp_types }}):
+            self.req = request
+            self.enforced_type = resp_t[0]
+            self.resp_t = resp_t[1]
+
+        def auth_handler(self):
+            {{ tmpl.auth }}
+
+        def validate_params_handler(self):
+            validations = {{ tmpl.validation }}
+            uri_in = self.req.view_args
+            get_in = self.req.args
+            body_in = self.req.data
+            mime_type = self.req.mimetype
+
+            # Validate URI paramters
+            check = self.validate_request_parameter(validations, uri_in)
+            if check.proceed == False:
+                return check
+
+            # Validate query string
+            check = self.validate_query_string(validations, get_in)
+            if check.proceed == False:
+                return check
+
+            # Validate query mime type and body
+            check = self.validate_body_params(validations, body_in, mime_type)
+            if check.proceed == False:
+                return check
+
+            cust_request = {}
+            arguments = {{ tmpl.args_search }}
+            for arg in arguments:
+                cust_request[arg['name']] = {'type': arg['type'], 'value': self.find_corresponding_param(arg['name'], arg['type'], uri_in, get_in, body_in, mime_type)}
+
+            custom_processing = self.add_validate_params_handler(cust_request)
+
+            return custom_processing
+
+        def add_validate_params_handler(self, cust_request):
+            return Response_Element()
+
+        def check_overriden(self):
+            overriden = []
+
+            for method in ('auth_handler', 'validate_params_handler', '__init__', 'handle_request'):
+                this_method = getattr(self, method)
+                base_method = getattr({{ tmpl.parent_class }}.{{ tmpl.class_name }}, method)
+
+                if this_method.__func__ is not base_method.__func__:
+                    overriden.append(method)
+
+            return overriden
+
+        def check_response_code(self, code):
+            if self.enforced_type:
+                codes = [i['code'] for i  in self.resp_t]
+                if code in codes:
+                    if resp_validator.validate(code, self.resp_t):
+                        return True
+                    else:
+                        return False
+                else:
+                    return False
+            else:
+                return True
+
+        def request_handler(self):
+            {{ tmpl.return_val }}

@@ -1,0 +1,19 @@
+{
+  "ID" : 3584907 ,
+  "name" : "WordPress.com News" ,
+  "description" : "The latest news on WordPress.com and the WordPress community." ,
+  "URL" : "http://en.blog.wordpress.com" ,
+  "jetpack" : false ,
+  "subscribers_count" : 10541605 ,
+  "is_private" : false ,
+  "is_following" : 0 ,
+  "meta" : {
+    "links" : {
+      "self" : "https://public-api.wordpress.com/rest/v1/sites/3584907" ,
+      "help" : "https://public-api.wordpress.com/rest/v1/sites/3584907/help" ,
+      "posts" : "https://public-api.wordpress.com/rest/v1/sites/3584907/posts/" ,
+      "comments" : "https://public-api.wordpress.com/rest/v1/sites/3584907/comments/" ,
+      "xmlrpc" : "https://en.blog.wordpress.com/xmlrpc.php"
+    }
+  }
+}

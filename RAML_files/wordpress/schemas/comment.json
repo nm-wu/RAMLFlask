@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "required": false,
+  "type": "object",
+  "properties": {
+    "ID": {
+      "required": false,
+      "type": "integer"
+    },
+    "post": {
+      "required": false,
+      "type": "object",
+      "properties": {
+      }
+    },
+    "author": {
+      "required": false,
+      "type": "object",
+      "properties": {
+      }
+    },
+    "date": {
+      "required": false,
+      "type": "string"
+    },
+    "URL": {
+      "required": false,
+      "type": "string"
+    },
+    "short_URL": {
+      "required": false,
+      "type": "string"
+    },
+    "content": {
+      "required": false,
+      "type": "string"
+    },
+    "status": {
+      "required": false,
+      "type": "string"
+    },
+    "parent": {
+      "required": false,
+      "type": [
+        "object",
+        "boolean"
+      ]
+    },
+    "type": {
+      "required": false,
+      "type": "string"
+    },
+    "meta": {
+      "required": false,
+      "type": "object",
+      "properties": {
+      }
+    }
+  }
+}

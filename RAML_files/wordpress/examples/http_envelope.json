@@ -1,0 +1,13 @@
+{
+    "code": 403,
+    "headers": [
+        {
+            "name": "Content-Type",
+            "value": "application\/json"
+        }
+    ],
+    "body": {
+        "error": "authorization_required",
+        "message": "An active access token must be used retrieve notifications."
+    }
+}

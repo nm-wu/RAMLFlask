@@ -1,0 +1,14 @@
+#%RAML 0.8
+---
+title: Example API
+version: 1
+baseUri: http://example.com
+/basic-auth:
+  displayName: Basic Auth
+  description: Prompts the user for authorization using HTTP Basic Auth
+  delete:
+    responses:
+      401:
+      200:
+        body:
+          text/plain:

@@ -1,0 +1,1 @@
+{'DELETE /basic-auth/<user>/<passwd>': []}

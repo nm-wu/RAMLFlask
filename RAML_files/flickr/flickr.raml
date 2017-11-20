@@ -1,0 +1,87 @@
+#%RAML 0.8
+title: Flickr API
+baseUri: https://api.flickr.com/services
+schemas:
+  - photoPost-xml: !include schemas/photoPost-xml-schema.xsd
+  - okResponse-xml: !include schemas/okResponse-xml-schema.xsd
+  - errResponse-xml: !include schemas/errResponse-xml-schema.xsd
+/upload: 
+  post: 
+    description: |
+      If you're constructing the POST query manually instead of using some sort of service library, it should look something like this. All line endings must be 
+      .
+    body: 
+      multipart/form-data: 
+        formParameters: 
+          title: 
+            description: The title of the photo.
+          photo: 
+            description: The file to upload.
+            required: true
+          description: 
+            description: A description of the photo. May contain some limited HTML.
+          "tags ": 
+            description: A space-seperated list of tags to apply to the photo.
+          is_public: 
+            type: boolean
+            example: 1
+          is_friend: 
+            description: 0
+            type: boolean
+            example: 1
+          "is_family ": 
+            type: boolean
+            example: 1
+          "safety_level ": 
+            description: Set to 1 for Safe, 2 for Moderate, or 3 for Restricted.
+          "content_type ": 
+            description: Set to 1 for Photo, 2 for Screenshot, or 3 for Other.
+          "hidden ": 
+            description: Set to 1 to keep the photo in global search results, 2 to hide from public searches.
+    responses: 
+      200: 
+        body: 
+          application/xml: 
+            schema: photoPost-xml
+            example: !include examples/photoPost-xml-example.xml
+/rest: 
+  description: |
+    REST Request Format
+    REST is the simplest request format to use - it's a simple HTTP GET or POST action.
+    The REST Endpoint URL is https://api.flickr.com/services/rest/
+  get: 
+    queryParameters: 
+      method: 
+        required: true
+        example: flickr.test.echo
+      name: 
+        example: value
+    responses: 
+      200: 
+        body: 
+          application/xml: 
+            schema: okResponse-xml
+            example: !include examples/okResponse-xml-example.xml
+      400: 
+        body: 
+          application/xml: 
+            schema: errResponse-xml
+            example: !include examples/errResponse-xml-example.xml
+  post: 
+/replace: 
+  post: 
+    body: 
+      multipart/form-data: 
+        formParameters: 
+          photo: 
+            description: The file to upload.
+            required: true
+          photo_id: 
+            description: The ID of the photo to replace.
+            required: true
+          async: 
+            description: "Photos may be replaced in async mode, for applications that don't want to wait around for an upload to complete, leaving a socket connection open the whole time. Processing photos asynchronously is recommended. Please consult the documentation for details. set to 1 for async mode, 0 for sync mode"
+            type: boolean
+documentation: 
+  - title: Headline
+    content: !include docs/headline.md

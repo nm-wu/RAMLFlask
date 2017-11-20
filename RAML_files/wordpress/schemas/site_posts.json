@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "required": false,
+  "type": "object",
+  "properties": {
+    "found": {
+      "required": false,
+      "type": "integer"
+    },
+    "posts": {
+      "required": false,
+      "type": "array"
+    }
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "required": false,
+  "type": "object",
+  "properties": {
+    "ID": {
+      "required": false,
+      "type": "integer"
+    },
+    "site_ID": {
+      "required": false,
+      "type": "integer"
+    },
+    "author": {
+      "required": false,
+      "type": "object",
+      "properties": {
+      }
+    },
+    "date": {
+      "required": false,
+      "type": "string"
+    },
+    "modified": {
+      "required": false,
+      "type": "string"
+    },
+    "title": {
+      "required": false,
+      "type": "string"
+    },
+    "URL": {
+      "required": false,
+      "type": "string"
+    },
+    "short_URL": {
+      "required": false,
+      "type": "string"
+    },
+    "content": {
+      "required": false,
+      "type": "string"
+    },
+    "excerpt": {
+      "required": false,
+      "type": "string"
+    },
+    "slug": {
+      "required": false,
+      "type": "string"
+    },
+    "guid": {
+      "required": false,
+      "type": "string"
+    },
+    "status": {
+      "required": false,
+      "type": "string"
+    },
+    "password": {
+      "required": false,
+      "type": "string"
+    },
+    "parent": {
+      "required": false,
+      "type": [
+        "object",
+        "boolean"
+      ]
+    },
+    "type": {
+      "required": false,
+      "type": "string"
+    },
+    "comments_open": {
+      "required": false,
+      "type": "boolean"
+    },
+    "pings_open": {
+      "required": false,
+      "type": "boolean"
+    },
+    "comment_count": {
+      "required": false,
+      "type": "integer"
+    },
+    "like_count": {
+      "required": false,
+      "type": "integer"
+    },
+    "i_like": {
+      "required": false,
+      "type": "boolean"
+    },
+    "is_reblogged": {
+      "required": false,
+      "type": "boolean"
+    },
+    "is_following": {
+      "required": false,
+      "type": "boolean"
+    },
+    "global_ID": {
+      "required": false,
+      "type": "string"
+    },
+    "featured_image": {
+      "required": false,
+      "type": "string"
+    },
+    "format": {
+      "required": false,
+      "type": "string"
+    },
+    "geo": {
+      "required": false,
+      "type": [
+        "object",
+        "boolean"
+      ]
+    },
+    "publicize_URLs": {
+      "required": false,
+      "type": "array"
+    },
+    "tags": {
+      "required": false,
+      "type": "object",
+      "properties": {
+      }
+    },
+    "categories": {
+      "required": false,
+      "type": "object",
+      "properties": {
+      }
+    },
+    "attachments": {
+      "required": false,
+      "type": "object",
+      "properties": {
+      }
+    },
+    "metadata": {
+      "required": false,
+      "type": "array"
+    },
+    "meta": {
+      "required": false,
+      "type": "object",
+      "properties": {
+      }
+    },
+    "date_range": {
+      "required": false,
+      "type": "object",
+      "properties": {
+      }
+    },
+    "number": {
+      "required": false,
+      "type": "integer"
+    },
+    "posts": {
+      "required": false,
+      "type": "array"
+    }
+  }
+}

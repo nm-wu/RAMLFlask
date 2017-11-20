@@ -1,0 +1,1 @@
+Grooveshark is a Web-based music streaming service. Users upload digital audio files, which can then be streamed and organized in playlists. The Grooveshark website has a search engine, music streaming features, and a music recommendation system.

@@ -1,0 +1,15 @@
+queryParameters: 
+  order: 
+    description: "DESC: (default) Return posts in descending order. For dates, that means newest to oldest. ASC: Return posts in ascending order. For dates, that means oldest to newest."
+    enum: [ DESC , ASC ]
+    default: DESC
+    example: ASC
+  page: 
+    description: Return the Nth 1-indexed page of posts.
+    type: integer
+    required: true
+  number: 
+    description: "The number of posts to return. Limit: 40. Default: 10."
+    type: integer
+    maximum: 40
+    default: 10

@@ -1,0 +1,30 @@
+queryParameters: 
+  status: 
+    description: "approved: (default) Return only approved comments. unapproved: Return only comments in the moderation queue. spam: Return only comments marked as spam. trash: Return only comments in the trash."
+    enum: 
+      - approved
+      - unapproved
+      - spam
+      - trash
+    default: approved
+    example: unapproved
+  number: 
+    description: "The number of comments to return. Limit: 100. Default: 20."
+    type: integer
+    maximum: 100
+    default: 20
+  type: 
+    description: "any: (default) Return all comments regardless of type. comment: Return only regular comments. trackback: Return only trackbacks. pingback: Return only pingbacks. pings: Return both trackbacks and pingbacks."
+    enum: 
+      - any
+      - comment
+      - trackback
+      - pingback
+      - pings
+    default: any
+    example: comment
+  order: 
+    description: "DESC: (default) Return comments in descending order from newest to oldest. ASC: Return comments in ascending order from oldest to newest."
+    enum: [ DESC , ASC ]
+    default: DESC
+    example: ASC

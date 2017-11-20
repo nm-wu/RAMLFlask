@@ -1,0 +1,1 @@
+{'GET /threads/search': [{'body': 'text/plain', 'code': 501}, {'body': 'application/json', 'code': 200}, {'body': None, 'code': 400}, {'body': None, 'code': 500}]}

@@ -1,0 +1,1 @@
+{'DELETE /basic-auth': [{'body': None, 'code': 401}, {'body': 'text/plain', 'code': 200}, {'body': None, 'code': 400}, {'body': None, 'code': 500}]}
