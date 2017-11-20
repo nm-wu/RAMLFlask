@@ -1,16 +1,20 @@
 # FlaskRAML
-FlaskRAML is a tool that allows the development of web APIs with Flask, in combination with Domain-Specific Language (DSL) inputs based on RAML. One goal of this tool was providing Roundtrip Engineering support for this DSL integration. This means that DSL code and handwritten extensions of it can be evolved separately, and then integrated again over time. This should improve the development experience of Flask with RAML.
+FlaskRAML is a tool that allows the development of web APIs with Flask, in combination with Domain-Specific Language (DSL) inputs based on RAML. This is a proof of concept implementation, accompanied by a thesis on the topic. One goal of this tool was providing Roundtrip Engineering support for this DSL integration. This means that DSL code and handwritten extensions of it can be evolved separately, and then integrated again over time. This should improve the development experience of Flask with RAML.
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system. First off, you will need a copy of this repository. Then, you can just reference the FlaskRAML files in your project to utilise them.
 
 ## Creating a simple application
 Creating a basic application essentially involves creating a RAML file, and then referencing it via RAMLFlask. To only run the generated code, this minimal example will work, independent of the contents of the RAML file. Additional code is only needed to include handwritten code extensions.
+
+For this, you first have to include the necessary dependencies to the following RAMLFlask classes: Generator, Comparison, and Server. The Generator class is responsible for generating the code artifacts. Then, the Comparison class allows for checks against previous versions of the RAML file, to notify the developer of any changes that would require their attention. Finally, the Server class is actually used for creating a Flask server based on the previous two components.
 ``` python
 from RAMLFlask.Generator import Generator
-from RAMLFlask.Server import Server
 from RAMLFlask.Comparison import Comparison
-
+from RAMLFlask.Server import Server
+```
+The creation of a simple server then utilizes these dependencies and references a RAML file.
+``` python
 gen = Generator('./example.raml')
 comp = Comparison()
 Server(gen, comp).exec_all()
