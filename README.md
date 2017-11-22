@@ -51,6 +51,10 @@ This test can be used to run several RAML specifications of real-world APIs, to 
 ``` python
 python mem_tester.py
 ```
+This test uses mprof, thus the path for mprof should be set correctly for this test to work.
+``` python
+PATH=/path/to/mprof:$PATH python mem_tester.py
+```
 
 ### Performance test
 This test can be used to run several RAML specifications of real-world APIs, to then test the build performance for each of the APIs in each stage of the FlaskRAML execution process. This should help to ensure that FlaskRAML is performing well enough for real-world usage. The performance test can be started via
