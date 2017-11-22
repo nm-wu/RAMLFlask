@@ -1,4 +1,4 @@
-from FlaskRAML.rsp_element import Response_Element
+from RAMLFlask.rsp_element import Response_Element
 
 class {{ type }}_Delegate(object):
     """Delegation class"""
