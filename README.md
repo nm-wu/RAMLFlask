@@ -29,6 +29,22 @@ python main.py
 ```
 Of course, you could also change the code in this example and use it for your own project.
 
+## Creating a simple application
+Creating a basic application essentially involves creating a RAML file, and then referencing it via RAMLFlask. To only run the generated code, this minimal example will work, independent of the contents of the RAML file. Additional code is only needed to include handwritten code extensions.
+
+For this, you first have to include the necessary dependencies to the following RAMLFlask classes: Generator, Comparison, and Server. The Generator class is responsible for generating the code artifacts. Then, the Comparison class allows for checks against previous versions of the RAML file, to notify the developer of any changes that would require their attention. Finally, the Server class is actually used for creating a Flask server based on the previous two components.
+``` python
+from RAMLFlask.Generator import Generator
+from RAMLFlask.Comparison import Comparison
+from RAMLFlask.Server import Server
+```
+The creation of a simple server then utilizes these dependencies and references a RAML file.
+``` python
+gen = Generator('./example.raml')
+comp = Comparison()
+Server(gen, comp).exec_all()
+```
+
 ## Running the tests
 This repository contains several tests, which should help verify that FlaskRAML is implemented correctly, and actually delivers the benefits mentioned before. Below, each test is described. These tests allow to replicate all evaluation measurements mentioned in the corresponding thesis document.
 
