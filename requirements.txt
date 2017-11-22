@@ -8,3 +8,4 @@ ramlfications==0.1.9
 six==1.11.0
 statistics==1.0.3.5
 memory_profiler==0.45
+matplotlib==1.3.1
