@@ -2,10 +2,11 @@
 FlaskRAML is a tool that allows the development of web APIs with Flask, in combination with Domain-Specific Language (DSL) inputs based on RAML. This is a proof of concept implementation, accompanied by a thesis on the topic. One goal of this tool was providing Roundtrip Engineering support for this DSL integration. This means that DSL code and handwritten extensions of it can be evolved separately, and then integrated again over time. This should improve the development experience of Flask with RAML.
 
 ## Getting Started
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system. First off, you will need a copy of this repository. Then, you can just reference the FlaskRAML files in your project to utilise them. Second, you will need to make sure that you have all the dependencies installed. To do this, you can use the requirements.txt file. This contains all necessary requirements for the project. You can use pip to install all the requirements in that file
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system. First off, you will need a copy of this repository. Then, you can just reference the FlaskRAML files in your project to utilise them. Second, you will need to make sure that you have all the dependencies installed. To do this, you can use the requirements.txt file. This file contains all necessary requirements for the project. You can use pip to install all the requirements in that file
 ``` python
 pip install -r requirements.txt
 ```
+Please note that the project was done using Python 2.7.10 Thus, you should also use a version of Python 2 to run this project.
 
 ## Creating a simple application
 Creating a basic application essentially involves creating a RAML file, and then referencing it via RAMLFlask. To only run the generated code, this minimal example will work, independent of the contents of the RAML file. Additional code is only needed to include handwritten code extensions.
