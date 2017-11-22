@@ -36,7 +36,7 @@ This repository contains several tests, which should help verify that FlaskRAML 
 ### Unit tests
 FlaskRAML includes a collection of unit tests, with the purpose of verifying that all functions created for FlaskRAML are working as intended. This should help confirm that the current version of FlaskRAML is working, which also makes it suitable for continued development while verifying that everything is working as intended. The unit tests can be started via
 ``` python
-python RAMLFlask/main.py
+python RAMLFlask_tests/main.py
 ```
 
 ### Evolution test
