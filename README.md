@@ -28,7 +28,7 @@ If you want to start the regular execution of the project with the provided file
 ``` python
 python main.py
 ```
-Please be aware that the URL of the route might also contain the version of the API, if present in the RAML file. The version would be found before the rest of the URL. As an example: http://127.0.0.1:5000/**v1**/resource. Of course, you could also change the code in this example and use it for your own project.
+Please be aware that the URL of the route might also contain the version of the API, if present in the RAML file. The version would be found before the rest of the URL. As an example: URL/**v1**/resource. Of course, you could also change the code in this example and use it for your own project.
 
 ## Running the tests
 This repository contains several tests, which should help verify that FlaskRAML is implemented correctly, and actually delivers the benefits mentioned before. Below, each test is described. These tests allow to replicate all evaluation measurements mentioned in the corresponding thesis document.
