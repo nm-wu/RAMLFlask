@@ -1,4 +1,8 @@
 from __future__ import absolute_import
+import os
+import sys
+
+sys.path.insert(0,os.getcwd())
 
 # Response Element
 def test_Response_Element():
@@ -404,7 +408,7 @@ def test_generate_handwritten_imports():
     from RAMLFlask.Generator import Generator
 
     gen = Generator('example.raml')
-    assert gen.generate_handwritten_imports('./hw_imports_test') == ['hw_imports_test.test_class']
+    assert 'hw_imports_test.test_class' in gen.generate_handwritten_imports('./hw_imports_test')
 
 
 def test_generate_handwritten_classes():
