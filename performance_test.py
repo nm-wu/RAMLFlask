@@ -90,6 +90,13 @@ def timed_test(file, warmup=100, repeats=100):
 
     sys.stdout = oldstdout
 
+    print('"' + file  + '";"M1";' + ";".join(str(v) for v in results[0]))
+    print('"' + file  + '";"M2";' + ";".join(str(v) for v in results[1]))
+    print('"' + file  + '";"M3";' + ";".join(str(v) for v in results[2]))
+    print('"' + file  + '";"M4";' + ";".join(str(v) for v in results[3]))
+    print('"' + file  + '";"M5";' + ";".join(str(v) for v in results[4]))
+    print('"' + file  + '";"M6";' + ";".join(str(v) for v in results[5]))
+
     if os.path.exists('./delegates'):
         shutil.rmtree('./delegates')
 

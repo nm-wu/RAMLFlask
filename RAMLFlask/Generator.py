@@ -1,4 +1,5 @@
 import os
+import sys
 import re
 import importlib
 import time
@@ -224,7 +225,7 @@ class Generator:
 
 
     def add_generated_classes(self, tmpl_vars):
-        fn_route = os.path.join(os.path.dirname(__file__), 'generated_class.template')
+        fn_route = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'generated_class.template')
         template_route = jinja2.Environment(loader=jinja2.FileSystemLoader(searchpath="/")).get_template(fn_route)
         return template_route.render(tmpl=tmpl_vars) + '\n\n'
 
@@ -252,7 +253,7 @@ class Generator:
         text_file.close()
 
     def create_delegate(self, name, del_type):
-        fn_delegate = os.path.join(os.path.dirname(__file__), 'delegate.template')
+        fn_delegate = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'delegate.template')
         template_delegate = jinja2.Environment(loader=jinja2.FileSystemLoader(searchpath="/")).get_template(fn_delegate)
 
         new_delegate = template_delegate.render(type=del_type)
@@ -479,7 +480,7 @@ class Generator:
         # Export the dictionary with validation information
         file_name1 = time.strftime("%Y%m%d%H%M%S") + '_valid.py'
 
-        fn_route = os.path.join(os.path.dirname(__file__), 'dict_ex.template')
+        fn_route = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dict_ex.template')
         template_route = jinja2.Environment(loader=jinja2.FileSystemLoader(searchpath="/")).get_template(fn_route)
         file_content = template_route.render(tmpl={'dictionary': self.new_dict})
         path = os.path.join(self.generated_directory, 'structures', '')
@@ -488,7 +489,7 @@ class Generator:
         # Export the dictionary with return type information
         file_name2 = self.file_name + '_rtype.py'
 
-        fn_route = os.path.join(os.path.dirname(__file__), 'dict_ex.template')
+        fn_route = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dict_ex.template')
         template_route = jinja2.Environment(loader=jinja2.FileSystemLoader(searchpath="/")).get_template(fn_route)
         file_content = template_route.render(tmpl={'dictionary': self.new_dict2})
         self.create_file(os.path.join('.', self.generated_directory, 'structures', ''), file_name2, file_content)

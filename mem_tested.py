@@ -1,6 +1,13 @@
+import os
+import sys
+
+sys.path.insert(0,os.path.dirname(os.getcwd()))
+
+
 from RAMLFlask.Server import Server
 from RAMLFlask.Generator import Generator
 from RAMLFlask.Comparison import Comparison
+
 import time
 
 current_milli_time = lambda: int(round(time.time() * 1000))
