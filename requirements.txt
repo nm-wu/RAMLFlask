@@ -2,7 +2,7 @@ structlog==17.2.0
 Flask==1.0.1
 Jinja2==2.11.3
 elasticsearch==5.4.0
-Werkzeug==0.15.3
+Werkzeug==3.0.1
 pathlib2==2.3.4
 ramlfications==0.1.9
 six==1.11.0
